@@ -73,6 +73,71 @@ main section[id] {
   vertical-align: baseline;
 }
 
+.section-divider {
+  position: relative;
+  width: min(calc(100% - 112px), 1824px);
+  height: 1px;
+  margin: 8px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 181, 158, 0.06) 12%,
+    rgba(255, 87, 26, 0.34) 50%,
+    rgba(255, 181, 158, 0.06) 88%,
+    transparent 100%
+  );
+  opacity: 0.82;
+  overflow: visible;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.section-divider::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 87, 26, 0.22),
+    rgba(255, 181, 158, 0.3),
+    rgba(255, 87, 26, 0.22),
+    transparent
+  );
+  filter: blur(8px);
+  opacity: 0.58;
+}
+
+.section-divider::after {
+  width: 18%;
+  background: linear-gradient(90deg, transparent, rgba(255, 181, 158, 0.65), transparent);
+  filter: blur(0.4px);
+  opacity: 0.32;
+  animation: divider-shimmer 8s ease-in-out infinite;
+}
+
+.section-divider-footer {
+  margin-top: 48px;
+}
+
+@keyframes divider-shimmer {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translate3d(-120%, 0, 0);
+  }
+  18%,
+  72% {
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate3d(680%, 0, 0);
+  }
+}
+
 .mouse-glow {
   position: fixed;
   left: 0;

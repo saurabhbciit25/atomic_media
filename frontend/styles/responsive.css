@@ -129,7 +129,11 @@
 
 @media (max-width: 768px) {
   .page {
-    padding: 0 24px 96px;
+    padding: var(--nav-offset, 132px) 24px 96px;
+  }
+
+  .section-divider {
+    width: min(calc(100% - 32px), 720px);
   }
 
   .hero-heading h1 {
@@ -166,7 +170,7 @@
 
 @media (max-width: 600px) {
   .page {
-    padding: 0 20px 80px;
+    padding: var(--nav-offset, 132px) 20px 80px;
   }
 
   .nav-card {
