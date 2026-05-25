@@ -52,15 +52,17 @@ main section[id] {
 }
 
 .wordmark {
-  display: inline-block;
-  color: #f3f1ef;
-  font-family: var(--font-display);
-  font-size: inherit;
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.055em;
-  text-transform: uppercase;
-  white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #f3f1ef;
+    font-family: var(--font-display);
+    font-size: inherit;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .wordmark-dot {

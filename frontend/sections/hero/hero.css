@@ -56,16 +56,16 @@
 }
 
 .hero-card-left {
-  left: 0;
-  top: 150px;
+  left: -50px;
+  top: 210px;
   --card-rotate: -6deg;
   animation: float 6s ease-in-out infinite;
  
 }
 
 .hero-card-right {
-  right: 150px;
-  top: 300px;
+  right: 0px;
+  top: 340px;
   width: 288px;
   --card-rotate: 4deg;
   animation: float 7s ease-in-out infinite;
@@ -220,7 +220,7 @@
 .hero-description {
   max-width: 680px;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .hero-actions {

@@ -1,3 +1,51 @@
+@media (max-width: 1200px) {
+  .nav-card {
+    width: min(calc(100% - 40px), var(--container-wide));
+  }
+
+  .stack-heading {
+    padding-inline: 64px;
+  }
+
+  .stack-grid-canvas {
+    padding-inline: 64px;
+  }
+}
+
+@media (max-width: 992px) {
+  .page {
+    padding: var(--nav-offset, 124px) 28px 96px;
+  }
+
+  .nav-card {
+    padding: 10px 22px;
+    gap: 14px;
+  }
+
+  .brand {
+    font-size: 28px;
+  }
+
+  .hero-heading h1 {
+    font-size: clamp(42px, 9vw, 88px);
+    letter-spacing: -2.6px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .works-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-card {
+    padding: 64px;
+  }
+}
+
 @media (max-width: 1024px) {
   .page::before,
   .page::after {
@@ -137,8 +185,28 @@
   }
 
   .hero-heading h1 {
-    font-size: clamp(44px, 10vw, 90px);
+    font-size: clamp(38px, 10vw, 72px);
     letter-spacing: -2px;
+    word-break: break-word;
+  }
+
+  .hero-badge {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 6px 12px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: min(100%, 320px);
   }
 
   .stack-grid-canvas {
@@ -166,6 +234,36 @@
   .process-line {
     display: none;
   }
+
+  .cta-card {
+    padding: 48px;
+  }
+
+  .works-slider-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .works-slider-nav {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .slider-progress {
+    flex: 1 1 160px;
+  }
+
+  .works-slide {
+    flex-basis: 88vw;
+    height: clamp(260px, 60vw, 360px);
+  }
+
+  .works-slide-info {
+    left: 20px;
+    bottom: 20px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -174,7 +272,7 @@
   }
 
   .nav-card {
-    padding: 10px 18px;
+    padding: 8px 16px;
   }
 
   .brand {
@@ -224,6 +322,10 @@
     flex-direction: column;
   }
 
+  .hero-actions .btn {
+    width: 100%;
+  }
+
   .clients {
     padding-bottom: 72px;
   }
@@ -255,6 +357,150 @@
   .work-tall,
   .work-wide {
     height: 300px;
+  }
+
+  .works-slider {
+    gap: 20px;
+  }
+
+  .works-slider-footer {
+    width: 100%;
+  }
+
+  .works-slider-nav {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
+  .slider-progress {
+    flex: 1 1 100%;
+    max-width: 240px;
+  }
+
+  .works-slider-track {
+    gap: 16px;
+  }
+
+  .works-slide {
+    flex-basis: 100%;
+    height: clamp(260px, 72vw, 360px);
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: var(--nav-offset, 120px) 16px 72px;
+  }
+
+  .nav-card {
+    width: calc(100% - 20px);
+    padding: 8px 14px;
+  }
+
+  .brand {
+    font-size: clamp(20px, 6vw, 24px);
+  }
+
+  .hero-heading h1 {
+    font-size: clamp(32px, 11vw, 48px);
+    letter-spacing: -1.2px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .stack-heading p {
+    max-width: 100%;
+  }
+
+  .stack-card {
+    min-height: auto;
+    padding: 28px;
+  }
+
+  .works-heading h2 {
+    font-size: clamp(32px, 10vw, 44px);
+  }
+
+  .work-info {
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .work-tags span {
+    padding: 4px 12px;
+    font-size: 11px;
+  }
+
+  .work-large,
+  .work-tall,
+  .work-wide {
+    height: clamp(220px, 70vw, 320px);
+  }
+
+  .slider-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  .slider-progress {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .works-slide {
+    flex-basis: 100%;
+    height: clamp(240px, 74vw, 320px);
+  }
+
+  .works-slide-info h4 {
+    font-size: 22px;
+  }
+
+  .works-slide-tags span {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .process {
+    padding: 120px 0 96px;
+    margin: 80px 0;
+  }
+
+  .process-heading h2 {
+    font-size: clamp(32px, 10vw, 44px);
+  }
+
+  .process-step h3 {
+    font-size: 24px;
+  }
+
+  .cta-card {
+    padding: 36px 24px;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+  }
+
+  .footer-grid {
+    padding: 0 20px 56px;
+  }
+
+  .footer-watermark {
+    font-size: clamp(54px, 16vw, 80px);
+    letter-spacing: -3px;
+  }
+
+  .footer-bottom {
+    padding: 20px;
   }
 }
 
