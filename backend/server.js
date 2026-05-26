@@ -97,10 +97,15 @@ app.use(notFound);
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`===============================================`);
-  console.log(`🚀 Atomic Media server initialized on port ${port}`);
-  console.log(`📍 Main App: http://localhost:${port}`);
-  console.log(`🛡️ Admin Page: http://localhost:${port}/admin.html`);
-  console.log(`===============================================`);
-});
+
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`===============================================`);
+    console.log(`🚀 Atomic Media server initialized on port ${port}`);
+    console.log(`📍 Main App: http://localhost:${port}`);
+    console.log(`🛡️ Admin Page: http://localhost:${port}/admin.html`);
+    console.log(`===============================================`);
+  });
+}
+
+export default app;
