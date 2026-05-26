@@ -53,14 +53,19 @@ app.use(
 );
 
 // Database connection check middleware (Ensure database is online for live endpoints)
-app.use((req, res, next) => {
-  if (req.path.startsWith("/api") && req.path !== "/api/health" && mongoose.connection.readyState !== 1) {
-    return res.status(503).json({
-      message: "Database connection is offline. Please check your cloud configuration.",
-      dbError: global.dbError || "No active connection to MongoDB Atlas"
-    });
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    if (req.path.startsWith("/api") && req.path !== "/api/health") {
+      return res.status(503).json({
+        message: "Database connection is offline. Please check your cloud configuration.",
+        dbError: error.message || "Failed to establish connection to MongoDB Atlas"
+      });
+    }
+    next();
   }
-  next();
 });
 
 // API Routes

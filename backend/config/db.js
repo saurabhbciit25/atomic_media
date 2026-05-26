@@ -1,16 +1,29 @@
 import mongoose from "mongoose";
 
-export default async function connectDB() {
-  const uri = process.env.MONGODB_URI;
+let cachedConnection = null;
 
-  try {
-    if (!uri) throw new Error("MONGODB_URI is missing in .env");
-    const conn = await mongoose.connect(uri);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    global.dbError = null;
-  } catch (error) {
-    console.error(`MongoDB Connection Error: ${error.message}`);
-    global.dbError = error.message;
-    process.exit(1); // Exit process on db connection failure for production environment
+export default async function connectDB() {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
+
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error("MONGODB_URI is missing in environment variables");
+  }
+
+  if (!cachedConnection) {
+    cachedConnection = mongoose.connect(uri).then((conn) => {
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+      global.dbError = null;
+      return conn;
+    }).catch((error) => {
+      console.error(`MongoDB Connection Error: ${error.message}`);
+      global.dbError = error.message;
+      cachedConnection = null; // Reset cache so we try again on next request
+      throw error;
+    });
+  }
+
+  return cachedConnection;
 }
