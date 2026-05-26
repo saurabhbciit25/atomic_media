@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>CMS Admin Command Center - Atomic Media</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #0F1112;
+      color: #e2e2e3;
+      font-family: 'Inter', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-card {
+      background: rgba(30, 34, 35, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid #2D3436;
+    }
+    .coral-glow:hover {
+      box-shadow: 0 0 15px rgba(255, 198, 181, 0.15);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0F1112;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2D3436;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ffc6b5;
+    }
+    
+    /* Tab pan show/hide rules */
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+  </style>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#2b3234",
+            "surface-tint": "#ffb59e",
+            "surface-container-highest": "#333536",
+            "primary-fixed-dim": "#ffb59e",
+            "on-secondary-fixed": "#161d1f",
+            "on-background": "#e2e2e3",
+            "inverse-surface": "#e2e2e3",
+            "on-primary-container": "#713826",
+            "primary-fixed": "#ffdbd0",
+            "tertiary": "#d1d4d5",
+            "on-tertiary-container": "#45494a",
+            "on-primary-fixed-variant": "#6f3724",
+            "on-error": "#690005",
+            "inverse-primary": "#8c4d39",
+            "error": "#ffb4ab",
+            "tertiary-container": "#b5b8b9",
+            "surface-dim": "#121415",
+            "surface-container-high": "#282a2b",
+            "background": "#121415",
+            "on-tertiary-fixed-variant": "#434748",
+            "on-tertiary-fixed": "#181c1d",
+            "surface-container-lowest": "#0c0e0f",
+            "error-container": "#93000a",
+            "surface-container-low": "#1a1c1d",
+            "on-primary-fixed": "#380d01",
+            "surface-container": "#1e2021",
+            "on-tertiary": "#2d3132",
+            "tertiary-fixed-dim": "#c4c7c8",
+            "secondary-container": "#434a4c",
+            "inverse-on-surface": "#2f3132",
+            "on-primary": "#532110",
+            "on-surface": "#e2e2e3",
+            "tertiary-fixed": "#e0e3e4",
+            "secondary-fixed-dim": "#c1c8ca",
+            "on-surface-variant": "#d8c2bb",
+            "surface": "#121415",
+            "secondary-fixed": "#dde4e6",
+            "surface-bright": "#38393a",
+            "outline": "#a08c87",
+            "on-error-container": "#ffdad6",
+            "primary": "#ff571a", /* Glowing orange branding */
+            "outline-variant": "#3a3c3e",
+            "on-secondary-container": "#b2babc",
+            "on-secondary-fixed-variant": "#41484a",
+            "primary-container": "#f4a48b",
+            "surface-variant": "#333536",
+            "secondary": "#c1c8ca"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.375rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "unit": "4px",
+            "sidebar-width": "260px",
+            "margin-mobile": "16px",
+            "margin-desktop": "32px",
+            "gutter": "24px"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="flex overflow-hidden bg-background text-on-surface min-h-screen w-screen">
+
+  <!-- ========================================== -->
+  <!-- 1. AUTHENTICATION PANEL OVERLAY -->
+  <!-- ========================================== -->
+  <section class="fixed inset-0 bg-[#0c0e0f] z-[9999] flex items-center justify-center" id="authPanel">
+    <div class="w-full max-w-[440px] bg-surface-container border border-outline-variant p-10 rounded-xl shadow-2xl flex flex-col items-center">
+      <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
+        <span class="material-symbols-outlined text-white text-3xl">admin_panel_settings</span>
+      </div>
+      <h1 class="text-2xl font-black uppercase text-white tracking-tight">Atomic <span class="text-primary">Console</span></h1>
+      <p class="text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mb-8 mt-1">Stitch Professional CMS v2.4.0</p>
+      
+      <form class="w-full flex flex-col gap-6" id="authForm">
+        <div class="flex flex-col gap-2">
+          <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="adminEmail">SECURITY EMAIL PATH</label>
+          <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-primary transition-all" type="email" id="adminEmail" required placeholder="admin@atomic.media"/>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="adminPassword">VERIFICATION CODE</label>
+          <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-primary transition-all" type="password" id="adminPassword" required placeholder="••••••••"/>
+        </div>
+        <button class="w-full bg-primary text-white font-bold py-3.5 rounded-lg text-sm hover:brightness-110 active:scale-95 transition-all mt-2" type="submit" id="authSubmitBtn">VERIFY IDENTITY</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 2. SYSTEM WORKSPACE SIDE NAVIGATION -->
+  <!-- ========================================== -->
+  <aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container border-r border-outline-variant flex flex-col py-6 z-50 transition-all" id="appSidebar" style="display: none;">
+    <div class="px-6 mb-10 flex items-center gap-3">
+      <div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+        <span class="material-symbols-outlined text-white text-2xl">dashboard</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-black text-primary leading-tight">Admin Console</h1>
+        <p class="text-[10px] text-on-surface-variant opacity-70">STITCH CMS v2.4.0</p>
+      </div>
+    </div>
+    
+    <nav class="flex-1 space-y-1" id="sidebarNav">
+      <!-- Active Class styling is added dynamically via admin.js -->
+      <button class="w-full flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200 border-l-[3px] border-transparent" data-tab="dashboard">
+        <span class="material-symbols-outlined mr-4">dashboard</span>
+        <span class="text-sm font-semibold">Dashboard</span>
+      </button>
+      <button class="w-full flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200 border-l-[3px] border-transparent" data-tab="pages">
+        <span class="material-symbols-outlined mr-4">description</span>
+        <span class="text-sm font-semibold">Pages Copywriting</span>
+      </button>
+      <button class="w-full flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200 border-l-[3px] border-transparent" data-tab="portfolio">
+        <span class="material-symbols-outlined mr-4">folder_shared</span>
+        <span class="text-sm font-semibold">Portfolio Management</span>
+      </button>
+      <button class="w-full flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200 border-l-[3px] border-transparent" data-tab="work">
+        <span class="material-symbols-outlined mr-4">work</span>
+        <span class="text-sm font-semibold">Work Lifecycles</span>
+      </button>
+      <button class="w-full flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all duration-200 border-l-[3px] border-transparent" data-tab="clients">
+        <span class="material-symbols-outlined mr-4">group</span>
+        <span class="text-sm font-semibold">Clients / Inquiries</span>
+      </button>
+    </nav>
+    
+    <div class="px-6 mt-auto">
+      <div class="p-4 bg-surface-container-low border border-outline-variant rounded-xl text-xs">
+        <p class="font-bold text-on-surface">Data Node</p>
+        <div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden">
+          <div class="bg-primary h-full w-[65%]" id="sidebarStorageProgress"></div>
+        </div>
+        <p class="text-[10px] text-on-surface-variant mt-2" id="sidebarStorageText">MongoDB Atlas Sync Status</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- 3. MAIN DISPLAY CANVAS -->
+  <!-- ========================================== -->
+  <main class="ml-[260px] flex-1 h-screen overflow-y-auto flex flex-col bg-background" id="appMain" style="display: none;">
+    <!-- TopAppBar -->
+    <header class="sticky top-0 w-full px-margin-desktop h-16 bg-surface border-b border-outline-variant flex justify-between items-center z-40">
+      <div class="flex items-center flex-1 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="globalSearchInput" placeholder="Global command search..." type="text"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-6 ml-8">
+        <div class="flex items-center gap-2 border border-green-950 bg-green-950/20 px-3 py-1 rounded-lg text-green-500 font-semibold text-xs uppercase" id="dbStatusBadge">
+          <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> DB CONNECTED
+        </div>
+        <button class="text-on-surface-variant hover:text-primary transition-colors logout-btn" id="logoutBtn" title="Logout Session">
+          <span class="material-symbols-outlined">logout</span>
+        </button>
+        <div class="h-8 w-px bg-outline-variant"></div>
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <p class="text-sm font-bold text-on-surface" id="adminUserDisplayName">Admin User</p>
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Super Administrator</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-outline-variant overflow-hidden font-black text-primary" id="adminUserAvatarText">A</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Workspace -->
+    <div class="p-margin-desktop space-y-gutter flex-grow">
+
+      <!-- ========================================== -->
+      <!-- TAB 1: DASHBOARD COMMAND CENTER -->
+      <!-- ========================================== -->
+      <section class="tab-pane" id="tab-dashboard">
+        <!-- Hero Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-3xl font-bold tracking-tight text-white">Command Center</h2>
+            <p class="text-sm text-on-surface-variant mt-1">Operational pipeline statistics from <span class="text-primary font-semibold">MongoDB Atlas</span></p>
+          </div>
+          <div class="flex gap-3">
+            <button class="px-4 py-2 bg-surface-container-high border border-outline-variant rounded-lg text-xs font-semibold hover:bg-surface-container-highest transition-colors flex items-center gap-2" id="syncStatsBtn">
+              <span class="material-symbols-outlined text-sm">sync</span> Sync Pipeline
+            </button>
+          </div>
+        </div>
+
+        <!-- Bento Grid Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-gutter">
+          <div class="glass-card p-6 rounded-xl relative overflow-hidden group hover:border-primary/50 transition-colors">
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/10 rounded-lg">
+                <span class="material-symbols-outlined text-primary">rocket_launch</span>
+              </div>
+              <span class="text-[10px] text-primary font-bold px-2 py-0.5 bg-primary/10 rounded" id="statProjectsBadge">Active</span>
+            </div>
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider">Seeded Projects</p>
+            <p class="text-3xl text-on-surface font-black mt-1" id="statProjectsCount">0</p>
+          </div>
+          <div class="glass-card p-6 rounded-xl relative overflow-hidden group hover:border-primary/50 transition-colors">
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/10 rounded-lg">
+                <span class="material-symbols-outlined text-primary">group</span>
+              </div>
+              <span class="text-[10px] text-primary font-bold px-2 py-0.5 bg-primary/10 rounded">Inquiries</span>
+            </div>
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider">Total Submissions</p>
+            <p class="text-3xl text-on-surface font-black mt-1" id="statInquiriesCount">0</p>
+          </div>
+          <div class="glass-card p-6 rounded-xl relative overflow-hidden group hover:border-primary/50 transition-colors">
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/10 rounded-lg">
+                <span class="material-symbols-outlined text-primary">payments</span>
+              </div>
+              <span class="text-[10px] text-primary font-bold px-2 py-0.5 bg-primary/10 rounded">Sum</span>
+            </div>
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider">Potential Valuation</p>
+            <p class="text-3xl text-primary font-black mt-1" id="statValuation">$0</p>
+          </div>
+          <div class="glass-card p-6 rounded-xl relative overflow-hidden group hover:border-primary/50 transition-colors">
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/10 rounded-lg">
+                <span class="material-symbols-outlined text-primary">engineering</span>
+              </div>
+              <span class="text-[10px] text-primary font-bold px-2 py-0.5 bg-primary/10 rounded">Lead</span>
+            </div>
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider">Active Pipeline</p>
+            <p class="text-3xl text-on-surface font-black mt-1" id="statPipelineCount">0</p>
+          </div>
+        </div>
+
+        <!-- Main Layout: Activities & Infrastructure Health -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+          <!-- Recent Activity -->
+          <div class="lg:col-span-8 glass-card rounded-xl overflow-hidden flex flex-col">
+            <div class="px-6 py-4 bg-surface-container border-b border-outline-variant flex justify-between items-center">
+              <h3 class="text-lg font-bold text-on-surface">Recent System Activity</h3>
+              <span class="text-xs text-primary font-semibold animate-pulse" id="statRealtimeSyncText">Connected to Cloud Stream</span>
+            </div>
+            <div class="p-6 space-y-6 flex-grow overflow-y-auto max-h-[460px] custom-scrollbar" id="recentActivityList">
+              <!-- Dynamically populated with project additions and contact messages -->
+              <div class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center border border-outline-variant">
+                    <span class="material-symbols-outlined text-primary">sync</span>
+                  </div>
+                </div>
+                <div class="flex-1 pb-4">
+                  <div class="flex justify-between items-start">
+                    <h4 class="text-sm font-bold text-on-surface">System Stream Initialized</h4>
+                    <span class="text-xs text-on-surface-variant">Just now</span>
+                  </div>
+                  <p class="text-sm text-on-surface-variant mt-1">Establishing direct websocket tunnel to MongoDB Atlas clusters...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Infrastructure -->
+          <div class="lg:col-span-4 flex flex-col gap-gutter">
+            <!-- Quick Actions -->
+            <div class="glass-card p-6 rounded-xl">
+              <h3 class="text-lg font-bold text-on-surface mb-6">Console Quick Actions</h3>
+              <div class="grid grid-cols-2 gap-4">
+                <button class="flex flex-col items-center justify-center p-4 bg-surface-container-low border border-outline-variant rounded-xl hover:border-primary group transition-all" onclick="document.querySelector('[data-tab=portfolio]').click()">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">add_circle</span>
+                  </div>
+                  <span class="text-xs font-semibold text-on-surface">New Project</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 bg-surface-container-low border border-outline-variant rounded-xl hover:border-primary group transition-all" onclick="document.querySelector('[data-tab=pages]').click()">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">edit_note</span>
+                  </div>
+                  <span class="text-xs font-semibold text-on-surface">Edit Copy</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 bg-surface-container-low border border-outline-variant rounded-xl hover:border-primary group transition-all" onclick="document.querySelector('[data-tab=clients]').click()">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">group</span>
+                  </div>
+                  <span class="text-xs font-semibold text-on-surface">Inbox Vault</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-4 bg-surface-container-low border border-outline-variant rounded-xl hover:border-primary group transition-all" onclick="alert('Seeding reset initiated! This will wipe and reseed MongoDB Atlas.'); window.location.href='/api/auth/me'">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">shield_person</span>
+                  </div>
+                  <span class="text-xs font-semibold text-on-surface">Verify Security</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Infrastructure health -->
+            <div class="glass-card p-6 rounded-xl flex-grow flex flex-col justify-between">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-on-surface">System Infrastructure</h3>
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span class="text-[10px] text-green-500 font-bold uppercase tracking-wide">Secure</span>
+                </div>
+              </div>
+              <div class="space-y-6">
+                <div>
+                  <div class="flex justify-between text-xs mb-2">
+                    <span class="text-on-surface-variant">CPU Core Load</span>
+                    <span class="text-on-surface font-semibold" id="infraCpuVal">24%</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full transition-all duration-700" style="width: 24%" id="infraCpuBar"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs mb-2">
+                    <span class="text-on-surface-variant">Active Memory Node</span>
+                    <span class="text-on-surface font-semibold" id="infraRamVal">68%</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full transition-all duration-700" style="width: 68%" id="infraRamBar"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs mb-2">
+                    <span class="text-on-surface-variant">Active Stream Channels</span>
+                    <span class="text-on-surface font-semibold">MongoDB Socket</span>
+                  </div>
+                  <div class="flex gap-1 h-8 items-end" id="infraSignalBarContainer">
+                    <div class="flex-grow bg-primary/20 h-3 rounded-sm transition-all duration-300"></div>
+                    <div class="flex-grow bg-primary/40 h-5 rounded-sm transition-all duration-300"></div>
+                    <div class="flex-grow bg-primary/60 h-4 rounded-sm transition-all duration-300"></div>
+                    <div class="flex-grow bg-primary h-8 rounded-sm transition-all duration-300"></div>
+                    <div class="flex-grow bg-primary/80 h-6 rounded-sm transition-all duration-300"></div>
+                    <div class="flex-grow bg-primary/40 h-3 rounded-sm transition-all duration-300"></div>
+                    <div class="flex-grow bg-primary h-7 rounded-sm transition-all duration-300"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: PAGES COPYWRITING MANAGEMENT -->
+      <!-- ========================================== -->
+      <section class="tab-pane" id="tab-pages">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+          <div>
+            <div class="flex items-center gap-2 text-primary mb-2">
+              <span class="material-symbols-outlined text-[20px]">edit_note</span>
+              <span class="text-xs font-bold uppercase tracking-widest">Homepage Customizer</span>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Homepage Copywriting</h1>
+            <p class="text-sm text-on-surface-variant mt-2">Dynamically modify headline texts and CTAs stored on MongoDB. Revisions reflect on the main site instantly.</p>
+          </div>
+        </div>
+
+        <div class="glass-card p-8 rounded-xl max-w-3xl">
+          <form class="flex flex-col gap-6" id="pageCopyForm">
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-bold text-on-surface-variant tracking-wider" for="copyHeadline">HERO MAIN HEADLINE</label>
+              <textarea class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-primary transition-all" id="copyHeadline" required rows="3"></textarea>
+            </div>
+            
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-bold text-on-surface-variant tracking-wider" for="copySubheadline">HERO SUBHEADLINE / SUMMARY</label>
+              <textarea class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-primary transition-all" id="copySubheadline" required rows="4"></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-bold text-on-surface-variant tracking-wider" for="copyCta">HERO CTA BUTTON LABEL</label>
+              <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-primary transition-all" type="text" id="copyCta" required/>
+            </div>
+
+            <button class="bg-primary text-white font-bold py-3.5 rounded-lg text-sm hover:brightness-110 active:scale-95 transition-all mt-4 self-start px-8" type="submit" id="saveCopyBtn">COMMIT SITE COPY</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: PORTFOLIO MANAGEMENT -->
+      <!-- ========================================== -->
+      <section class="tab-pane" id="tab-portfolio">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div>
+            <nav class="flex items-center gap-2 text-on-surface-variant text-xs font-bold mb-2">
+              <span>Admin</span>
+              <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+              <span class="text-primary">Portfolio</span>
+            </nav>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Portfolio Management</h1>
+            <p class="text-sm text-on-surface-variant mt-2">Manage the main showcase slider and detailed work entries in the MongoDB Projects collection.</p>
+          </div>
+          <button class="bg-primary text-white font-bold px-6 py-3 rounded-lg flex items-center gap-2 hover:brightness-110 shadow-lg shadow-primary/10 active:scale-95 transition-all" id="openAddProjectModalBtn">
+            <span class="material-symbols-outlined">add_circle</span>
+            <span>Add Portfolio Item</span>
+          </button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="bg-surface-container border border-outline-variant p-4 rounded-xl mb-8 flex flex-wrap items-center gap-4">
+          <span class="text-xs font-bold text-on-surface-variant px-2 uppercase tracking-widest">Filter By</span>
+          <div class="flex flex-wrap gap-2" id="portfolioCategoryFilters">
+            <button class="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-lg transition-colors portfolio-filter-btn" data-category="all">All Pieces</button>
+            <button class="px-4 py-1.5 border border-outline-variant hover:bg-surface-container-high text-xs font-semibold rounded-lg transition-colors portfolio-filter-btn" data-category="Branding">Branding</button>
+            <button class="px-4 py-1.5 border border-outline-variant hover:bg-surface-container-high text-xs font-semibold rounded-lg transition-colors portfolio-filter-btn" data-category="UI/UX Design">UI/UX Design</button>
+            <button class="px-4 py-1.5 border border-outline-variant hover:bg-surface-container-high text-xs font-semibold rounded-lg transition-colors portfolio-filter-btn" data-category="Web Development">Web Development</button>
+            <button class="px-4 py-1.5 border border-outline-variant hover:bg-surface-container-high text-xs font-semibold rounded-lg transition-colors portfolio-filter-btn" data-category="Motion">Motion Graphics</button>
+          </div>
+        </div>
+
+        <!-- Portfolio Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter" id="portfolioGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: WORK LIFECYCLE MANAGEMENT -->
+      <!-- ========================================== -->
+      <section class="tab-pane" id="tab-work">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+          <div>
+            <div class="flex items-center gap-2 text-primary mb-2">
+              <span class="material-symbols-outlined text-[20px]">cases</span>
+              <span class="text-xs font-bold uppercase tracking-widest">Operations Hub</span>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Work Lifecycle Management</h1>
+            <p class="text-sm text-on-surface-variant mt-2">Track completion progress pipelines and lifecycle states of active corporate projects.</p>
+          </div>
+          <button class="bg-primary text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all" onclick="document.getElementById('openAddProjectModalBtn').click()">
+            <span class="material-symbols-outlined">rocket_launch</span>
+            <span>Create Work Entry</span>
+          </button>
+        </header>
+
+        <!-- Stats Bento -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-10">
+          <div class="bg-surface-container border border-outline-variant p-6 rounded-xl flex flex-col justify-between hover:border-primary/30 transition-all cursor-default">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-2">Total active projects</p>
+            <div class="flex items-end justify-between">
+              <h3 class="text-3xl font-black text-white" id="workStatActiveCount">0</h3>
+              <span class="text-primary text-xs font-bold flex items-center"><span class="material-symbols-outlined text-sm">trending_up</span> +12%</span>
+            </div>
+          </div>
+          <div class="bg-surface-container border border-outline-variant p-6 rounded-xl flex flex-col justify-between hover:border-primary/30 transition-all cursor-default">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-2">Avg Completion</p>
+            <div class="flex items-end justify-between">
+              <h3 class="text-3xl font-black text-white" id="workStatAvgProgress">0%</h3>
+              <div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+                <div class="bg-primary h-full w-[65%]" id="workStatProgressBar"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-surface-container border border-outline-variant p-6 rounded-xl flex flex-col justify-between hover:border-primary/30 transition-all cursor-default">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-2">Pending Case Studies</p>
+            <div class="flex items-end justify-between">
+              <h3 class="text-3xl font-black text-white" id="workStatPendingCount">0</h3>
+              <span class="text-primary text-xs font-bold flex items-center"><span class="material-symbols-outlined text-sm">priority_high</span> Pipeline</span>
+            </div>
+          </div>
+          <div class="bg-surface-container border border-outline-variant p-6 rounded-xl flex flex-col justify-between hover:border-primary/30 transition-all cursor-default">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-2">Seeded on Atlas</p>
+            <div class="flex items-end justify-between">
+              <h3 class="text-3xl font-black text-white">100%</h3>
+              <span class="text-xs text-on-surface-variant">Live Sync</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Work Table Container -->
+        <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden shadow-2xl shadow-black/20">
+          <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-high">
+            <h2 class="text-lg font-bold text-on-surface">Active Lifecycle Registry</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-surface-container-highest border-b border-outline-variant">
+                  <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Project Name</th>
+                  <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Client Entity</th>
+                  <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Category</th>
+                  <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Completion %</th>
+                  <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Visibility Status</th>
+                  <th class="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant" id="workTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 5: CLIENTS / MESSAGE INBOX -->
+      <!-- ========================================== -->
+      <section class="tab-pane" id="tab-clients">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">lock</span>
+              <span class="text-xs text-primary font-bold tracking-widest uppercase">Client Intake Vault</span>
+            </div>
+            <h2 class="text-3xl font-bold tracking-tight text-white">Client Management</h2>
+            <p class="text-sm text-on-surface-variant mt-1">Manage private stakeholder accounts, project briefs, and budget requests submitted on MongoDB.</p>
+          </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="flex justify-between items-center gap-4 mb-6 flex-wrap">
+          <input class="bg-surface-container border border-outline-variant rounded-lg pl-4 pr-4 py-2 text-sm focus:outline-none focus:border-primary transition-all w-80" id="inboxSearchInput" placeholder="Search clients or projects..." type="text"/>
+          <div class="flex gap-3">
+            <select class="bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-xs text-on-surface-variant outline-none cursor-pointer" id="inboxFilterStatus">
+              <option value="all">ALL STATUSES</option>
+              <option value="new">NEW INQUIRIES</option>
+              <option value="read">READ INQUIRIES</option>
+              <option value="archived">ARCHIVED INQUIRIES</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Client Table Container -->
+        <div class="bg-surface-container border border-outline-variant rounded-xl overflow-hidden shadow-2xl shadow-black/20">
+          <div class="px-6 py-5 border-b border-outline-variant flex items-center justify-between bg-surface-container-high">
+            <h3 class="text-lg font-bold text-on-surface">Client Intake Directory</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-surface-container-high border-b border-outline-variant">
+                  <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Client Name</th>
+                  <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Company Entity</th>
+                  <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Contact Route</th>
+                  <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Intake Target</th>
+                  <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Status</th>
+                  <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant" id="inboxTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 4. DIALOG MODAL: PORTFOLIO ADD/EDIT ITEM -->
+  <!-- ========================================== -->
+  <div class="fixed inset-0 bg-[#08080a]/80 backdrop-blur-md z-[99999] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300" id="projectModal">
+    <div class="w-full max-w-[620px] bg-surface-container border border-outline-variant p-8 rounded-xl shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <button class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-all text-xl font-black" id="closeProjectModalBtn">&times;</button>
+      
+      <div class="mb-6 border-b border-outline-variant pb-4">
+        <h2 class="text-xl font-bold text-white uppercase tracking-tight" id="projectModalTitle">Initialize Portfolio Item</h2>
+        <p class="text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mt-1">Stitch Professional CMS Schema Editor</p>
+      </div>
+
+      <form class="flex flex-col gap-5" id="projectForm">
+        <input type="hidden" id="projectIdField"/>
+        
+        <div class="flex flex-col gap-2">
+          <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="projectTitle">PROJECT TITLE</label>
+          <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary transition-all" type="text" id="projectTitle" required placeholder="e.g. NEON_DRIFT"/>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-2">
+            <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="projectCategory">CATEGORY</label>
+            <select class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary transition-all" id="projectCategory" required>
+              <option value="Branding">Branding</option>
+              <option value="UI/UX Design">UI/UX Design</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Motion">Motion Graphics</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="projectProgress">COMPLETION %</label>
+            <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary transition-all" type="number" id="projectProgress" required min="0" max="100" value="100"/>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="projectSummary">BRIEF SUMMARY</label>
+          <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary transition-all" type="text" id="projectSummary" required placeholder="e.g. High-velocity brand and launch system."/>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="projectTags">TAGS (COMMA SEPARATED)</label>
+          <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary transition-all" type="text" id="projectTags" placeholder="e.g. Branding, UI/UX, CGI"/>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-[10px] font-bold text-on-surface-variant tracking-wider" for="projectClient">CLIENT ENTITY</label>
+          <input class="w-full bg-[#08080a] border border-outline-variant rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary transition-all" type="text" id="projectClient" placeholder="e.g. Bluefin Corp"/>
+        </div>
+
+        <!-- Cloudinary Image Upload Module -->
+        <div class="flex flex-col gap-2 bg-[#08080a] border border-outline-variant p-4 rounded-lg">
+          <label class="text-[10px] font-bold text-primary tracking-wider">CLOUDINARY IMAGE PIPE</label>
+          <div class="flex items-center gap-4 mt-1">
+            <div class="w-16 h-16 bg-surface-container rounded border border-outline-variant overflow-hidden flex items-center justify-center flex-shrink-0" id="projectImagePreview">
+              <span class="material-symbols-outlined text-on-surface-variant text-xl">image</span>
+            </div>
+            <div class="flex-grow">
+              <input class="hidden" type="file" id="projectImageFile" accept="image/*"/>
+              <button class="bg-[#2D3436] hover:bg-primary hover:text-white transition-all text-xs font-semibold px-4 py-2 rounded-lg border border-outline-variant" type="button" onclick="document.getElementById('projectImageFile').click()">Choose Image File</button>
+              <p class="text-[9px] text-on-surface-variant mt-1.5" id="projectUploadStatusText">Select an image to stream onto Cloudinary secure storage...</p>
+            </div>
+          </div>
+          <input type="hidden" id="projectImageUrl"/>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="projectFeatured" class="rounded border-outline-variant bg-[#08080a] text-primary focus:ring-primary"/>
+          <label class="text-xs font-bold text-on-surface" for="projectFeatured">FEATURED WORK ITEM (Show in grids)</label>
+        </div>
+
+        <button class="w-full bg-primary text-white font-bold py-3 rounded-lg text-sm hover:brightness-110 active:scale-95 transition-all mt-2" type="submit" id="saveProjectBtn">COMMIT PORTFOLIO RECORD</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Toast -->
+  <div class="fixed bottom-8 right-8 bg-surface-container border border-primary text-on-surface px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 translate-y-32 transition-transform duration-300 z-[99999]" id="toast">
+    <span class="material-symbols-outlined text-primary">check_circle</span>
+    <span class="text-sm font-bold" id="toastText">Dashboard pipeline updated.</span>
+  </div>
+
+  <!-- Master JavaScript controller -->
+  <script src="admin.js"></script>
+</body>
+</html>

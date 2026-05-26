@@ -32,7 +32,7 @@
           <button class="nav-link" type="button" data-target="process">Process</button>
           <button class="nav-link" type="button" data-target="contact">Contact</button>
         </nav>
-        <button class="nav-cta" type="button">GET STARTED</button>
+        <button class="nav-cta" type="button" data-inquiry-trigger>GET STARTED</button>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
           <span></span>
           <span></span>
@@ -114,7 +114,7 @@
           AI.
         </p>
         <div class="hero-actions">
-          <button class="btn primary" type="button">START THE PROJECT</button>
+          <button class="btn primary" type="button" data-inquiry-trigger>START THE PROJECT</button>
           <button class="btn ghost" type="button">VIEW OUR REEL</button>
         </div>
       </section>
@@ -493,7 +493,7 @@
             </p>
           </div>
           <div class="cta-actions">
-            <button class="btn primary" type="button">CONNECT SYSTEM</button>
+            <button class="btn primary" type="button" data-inquiry-trigger>CONNECT SYSTEM</button>
             <button class="btn ghost" type="button">VIEW CASE STUDIES</button>
           </div>
           <div class="cta-abstract" aria-hidden="true">
@@ -547,6 +547,71 @@
     </footer>
   </div>
 
+  <!-- Ultra-Premium Glassmorphic Inquiry Modal -->
+  <div class="inquiry-modal" id="inquiryModal" aria-hidden="true">
+    <div class="inquiry-modal-overlay"></div>
+    <div class="inquiry-modal-content hover-glow">
+      <button class="inquiry-modal-close" type="button" aria-label="Close form">&times;</button>
+      <div class="inquiry-modal-header">
+        <h2>INITIALIZE <span>PROJECT</span></h2>
+        <p>CONNECT YOUR NODE TO THE ATOMIC SYSTEM</p>
+      </div>
+      <form class="inquiry-form" id="inquiryForm">
+        <div class="form-group">
+          <label for="inquiryName">FULL NAME / IDENTITY</label>
+          <input type="text" id="inquiryName" required placeholder="e.g. Neo Flynn">
+        </div>
+        <div class="form-group">
+          <label for="inquiryEmail">EMAIL PATH</label>
+          <input type="email" id="inquiryEmail" required placeholder="e.g. neo@system.net">
+        </div>
+        <div class="form-group">
+          <label for="inquiryCompany">COMPANY / UNIT</label>
+          <input type="text" id="inquiryCompany" placeholder="e.g. Zion Operations (Optional)">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inquiryService">SERVICE NODE</label>
+            <select id="inquiryService" required>
+              <option value="" disabled selected>SELECT GROWTH NODE...</option>
+              <option value="Branding">01 Branding</option>
+              <option value="Performance Marketing">02 Performance Marketing</option>
+              <option value="Social Media">03 Social Media</option>
+              <option value="AI Automation">04 AI Automation</option>
+              <option value="UI/UX Design">05 UI/UX Design</option>
+              <option value="Web Development">06 Web Development</option>
+              <option value="Paid Ads">07 Paid Ads</option>
+              <option value="Content Production">08 Content Production</option>
+              <option value="SEO">09 SEO</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inquiryBudget">BUDGET RANGE</label>
+            <select id="inquiryBudget" required>
+              <option value="" disabled selected>CHOOSE ALLOCATION...</option>
+              <option value="<$5k">&lt; $5,000</option>
+              <option value="$5k-$15k">$5,000 - $15,000</option>
+              <option value="$15k-$50k">$15,000 - $50,000</option>
+              <option value="$50k+">$50,000+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inquiryMessage">PROJECT BRIEF / LOGISTICS</label>
+          <textarea id="inquiryMessage" required rows="4" placeholder="Transmit details of your project requirements, goals, and core system constraints..."></textarea>
+        </div>
+        <button class="inquiry-submit-btn" type="submit">TRANSMIT INQUIRY</button>
+      </form>
+      <div class="inquiry-success-msg" id="inquirySuccess" style="display: none;">
+        <div class="success-icon">✓</div>
+        <h3>TRANSMISSION SUCCESSFUL</h3>
+        <p>Your node has been initialized. Our atomic response team will establish contact within 24 hours.</p>
+        <button class="btn primary inquiry-modal-close-success" type="button">CLOSE CONSOLE</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="script.js"></script>
+  <script type="module" src="inquiry.js"></script>
 </body>
 </html>
