@@ -52,12 +52,13 @@ app.use(
   })
 );
 
-// Database connection check middleware
+// Database connection check middleware (Ensure database is online for live endpoints)
 app.use((req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    res.setHeader("X-Database-Offline", "true");
-    // Disable Mongoose query buffering when database is offline so queries fail fast
-    mongoose.set("bufferCommands", false);
+  if (req.path.startsWith("/api") && req.path !== "/api/health" && mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      message: "Database connection is offline. Please check your cloud configuration.",
+      dbError: global.dbError || "No active connection to MongoDB Atlas"
+    });
   }
   next();
 });
