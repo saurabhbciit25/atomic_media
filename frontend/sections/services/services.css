@@ -262,6 +262,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 41px;
+  border-radius: 22px;
   background:
     radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.035), transparent 58%),
     rgba(26, 26, 26, 0.6);
@@ -274,6 +275,7 @@
 .stack-card::after {
   content: "";
   position: absolute;
+  border-radius: inherit;
   inset: 0;
   background: linear-gradient(135deg, rgba(255, 181, 158, 0.09), transparent 32%, rgba(255, 255, 255, 0.02));
   opacity: 0;

@@ -119,8 +119,16 @@ body.nav-open .nav-mobile-panel {
 }
 
 .nav-mobile-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 22px;
   color: #f3f1ef;
+}
+
+.nav-mobile-logo .brand-logo {
+  width: 26px;
+  height: 26px;
 }
 
 .nav-close {

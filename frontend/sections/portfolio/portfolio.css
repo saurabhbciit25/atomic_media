@@ -232,6 +232,46 @@
   }
 }
 
+@media (max-width: 768px) {
+  .works-slide:hover {
+    transform: none;
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .works-slide:hover::before {
+    opacity: 0;
+  }
+
+  .works-slide:hover .works-slide-video {
+    filter: saturate(0.9) brightness(0.8) contrast(1.12);
+  }
+
+  .works-slide:hover .works-slide-overlay {
+    opacity: 0.9;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .works-slide:hover {
+    transform: none;
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .works-slide:hover::before {
+    opacity: 0;
+  }
+
+  .works-slide:hover .works-slide-video {
+    filter: saturate(0.9) brightness(0.8) contrast(1.12);
+  }
+
+  .works-slide:hover .works-slide-overlay {
+    opacity: 0.9;
+  }
+}
+
 @keyframes slider-progress {
   from {
     transform: scaleX(0);
