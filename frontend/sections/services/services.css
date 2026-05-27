@@ -1,6 +1,6 @@
 .stack {
   position: relative;
-  padding: 160px 0 0;
+  padding: 100px 0 0;
   isolation: isolate;
   overflow: hidden;
 }
@@ -349,6 +349,54 @@
 .stack-card:hover .stack-meta img {
   transform: translateX(3px);
   opacity: 0.9;
+}
+
+
+.stack-action {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 2px solid rgba(255, 181, 158, 0.2);
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.stack-action::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 181, 158, 0.08);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  z-index: 0;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.stack-action img {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.stack-action:hover::before {
+  transform: translate(-50%, -50%) scale(1.05);
+  background: rgba(255, 181, 158, 0.16);
+}
+
+.stack-action:focus {
+  outline: 5px solid rgba(255, 181, 158, 0.168);
+  outline-offset: 5px;
 }
 
 .stack-index {
