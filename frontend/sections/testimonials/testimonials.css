@@ -285,6 +285,43 @@
 		flex: 0 0 clamp(240px, 80vw, 320px);
 		min-height: 500px;
 	}
+
+	/* Mobile: stack the meta row into a column for better tap targets */
+	.testimonial-meta {
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		padding-top: 12px;
+	}
+
+	/* make the service look and behave like the follow button on mobile */
+	.testimonial-service {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 10px 14px;
+		font-size: 13px;
+		letter-spacing: 1.8px;
+		text-align: center;
+		text-transform: uppercase;
+		border-radius: var(--radius-md);
+		background: var(--surface);
+		border: 1px solid var(--border-strong);
+		color: var(--text);
+		/* purely visual — no interactive affordances */
+		margin: 0;
+		cursor: default;
+		transform: none !important;
+		box-shadow: none !important;
+		pointer-events: none;
+	}
+
+	.testimonial-meta .btn {
+		width: 100%;
+		justify-content: center;
+		padding: 10px 14px;
+		font-size: 13px;
+	}
 }
 
 @media (hover: none), (pointer: coarse) {

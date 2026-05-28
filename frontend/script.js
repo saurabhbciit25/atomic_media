@@ -618,19 +618,14 @@ const initWorksSlider = () => {
   let isDragging = false;
   let dragStartX = 0;
   let dragStartScroll = 0;
-  let isTouching = false;
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchStartScroll = 0;
 
   viewport.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "touch") {
-      return;
-    }
     isDragging = true;
     dragStartX = event.clientX;
     dragStartScroll = viewport.scrollLeft;
-    viewport.setPointerCapture(event.pointerId);
+    if (event.pointerId !== undefined) {
+      viewport.setPointerCapture(event.pointerId);
+    }
     viewport.classList.add("is-dragging");
     handleInteraction();
   });
@@ -648,7 +643,7 @@ const initWorksSlider = () => {
       return;
     }
     isDragging = false;
-    if (event.pointerId !== undefined) {
+    if (event.pointerId !== undefined && viewport.hasPointerCapture(event.pointerId)) {
       viewport.releasePointerCapture(event.pointerId);
     }
     viewport.classList.remove("is-dragging");
@@ -659,40 +654,47 @@ const initWorksSlider = () => {
   viewport.addEventListener("pointercancel", endDrag);
   viewport.addEventListener("pointerleave", endDrag);
 
-  viewport.addEventListener("touchstart", (event) => {
-    if (event.touches.length !== 1) {
-      return;
-    }
-    isTouching = true;
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-    touchStartScroll = viewport.scrollLeft;
-    handleInteraction();
-  }, { passive: true });
+  if (!("PointerEvent" in window)) {
+    let isTouching = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartScroll = 0;
 
-  viewport.addEventListener("touchmove", (event) => {
-    if (!isTouching || event.touches.length !== 1) {
-      return;
-    }
-    const deltaX = event.touches[0].clientX - touchStartX;
-    const deltaY = event.touches[0].clientY - touchStartY;
-    if (Math.abs(deltaX) <= Math.abs(deltaY)) {
-      return;
-    }
-    event.preventDefault();
-    viewport.scrollLeft = touchStartScroll - deltaX;
-  }, { passive: false });
+    viewport.addEventListener("touchstart", (event) => {
+      if (event.touches.length !== 1) {
+        return;
+      }
+      isTouching = true;
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+      touchStartScroll = viewport.scrollLeft;
+      handleInteraction();
+    }, { passive: true });
 
-  const endTouch = () => {
-    if (!isTouching) {
-      return;
-    }
-    isTouching = false;
-    snapToNearest();
-  };
+    viewport.addEventListener("touchmove", (event) => {
+      if (!isTouching || event.touches.length !== 1) {
+        return;
+      }
+      const deltaX = event.touches[0].clientX - touchStartX;
+      const deltaY = event.touches[0].clientY - touchStartY;
+      if (Math.abs(deltaX) <= Math.abs(deltaY)) {
+        return;
+      }
+      event.preventDefault();
+      viewport.scrollLeft = touchStartScroll - deltaX;
+    }, { passive: false });
 
-  viewport.addEventListener("touchend", endTouch);
-  viewport.addEventListener("touchcancel", endTouch);
+    const endTouch = () => {
+      if (!isTouching) {
+        return;
+      }
+      isTouching = false;
+      snapToNearest();
+    };
+
+    viewport.addEventListener("touchend", endTouch);
+    viewport.addEventListener("touchcancel", endTouch);
+  }
 
   viewport.addEventListener("scroll", () => {
     if (scrollTimer) {
