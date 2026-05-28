@@ -128,6 +128,34 @@
 
       <div class="section-divider" aria-hidden="true"></div>
 
+      <section class="cinematic-video-section reveal" data-cinematic-video>
+        <div class="cinematic-video-shell hover-glow">
+          <button class="cinematic-audio-toggle" type="button" aria-pressed="false" aria-label="Unmute video" data-cinematic-audio-toggle>
+            <img class="cinematic-audio-icon cinematic-audio-icon-muted" src="assets/icons/mute.png" alt="" aria-hidden="true">
+            <img class="cinematic-audio-icon cinematic-audio-icon-volume" src="assets/icons/volume.png" alt="" aria-hidden="true">
+            <span class="cinematic-audio-toggle-label">UNMUTE</span>
+          </button>
+          <video
+            class="cinematic-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="Atomic Media final showreel"
+            width="1920"
+            height="1080"
+          >
+            <source data-src="./assets/videos/final_showreel.mp4" type="video/mp4">
+          </video>
+          
+          <div class="cinematic-video-glow cinematic-video-glow-left" aria-hidden="true"></div>
+          <div class="cinematic-video-glow cinematic-video-glow-right" aria-hidden="true"></div>
+          <div class="cinematic-video-content">
+          </div>
+        </div>
+      </section>
+      
       <section class="clients reveal">
         <p class="clients-label">RELIANCE BY GLOBAL LEADERS</p>
         <div class="brand-marquee" aria-label="Trusted brand logos">

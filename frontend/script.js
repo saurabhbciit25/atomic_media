@@ -79,6 +79,138 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+const initCinematicVideoSection = () => {
+  const section = document.querySelector("[data-cinematic-video]");
+  if (!section) {
+    return;
+  }
+
+  const video = section.querySelector(".cinematic-video");
+  const source = video?.querySelector("source[data-src]");
+  const audioToggle = section.querySelector("[data-cinematic-audio-toggle]");
+
+  if (!video || !source) {
+    return;
+  }
+
+  let isLoaded = false;
+  let isVisible = false;
+
+  const safePlay = () => {
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  };
+
+  const safePause = () => {
+    if (!video.paused) {
+      video.pause();
+    }
+  };
+
+  const loadVideo = () => {
+    if (isLoaded) {
+      return;
+    }
+    const sourcePath = source.dataset.src?.trim();
+    if (!sourcePath) {
+      return;
+    }
+    ensurePoster(video);
+    source.src = sourcePath;
+    source.removeAttribute("data-src");
+    video.setAttribute("preload", "metadata");
+    video.load();
+    isLoaded = true;
+  };
+
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.autoplay = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("loop", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("autoplay", "");
+  video.setAttribute("preload", "metadata");
+  ensurePoster(video);
+
+  video.addEventListener("loadeddata", () => {
+    if (isVisible) {
+      safePlay();
+    }
+  });
+
+  const syncAudioToggle = () => {
+    if (!audioToggle) {
+      return;
+    }
+    const isMuted = video.muted;
+    audioToggle.classList.toggle("is-unmuted", !isMuted);
+    audioToggle.setAttribute("aria-pressed", String(!isMuted));
+    audioToggle.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
+    const label = audioToggle.querySelector(".cinematic-audio-toggle-label");
+    if (label) {
+      label.textContent = isMuted ? "UNMUTE" : "MUTE";
+    }
+  };
+
+  audioToggle?.addEventListener("click", () => {
+    loadVideo();
+    video.muted = !video.muted;
+    if (!video.muted) {
+      video.volume = 1;
+      safePlay();
+    }
+    syncAudioToggle();
+  });
+
+  syncAudioToggle();
+
+  if (typeof IntersectionObserver === "undefined") {
+    loadVideo();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== section) {
+          return;
+        }
+
+        const shouldPlay = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+        isVisible = shouldPlay;
+
+        if (shouldPlay) {
+          loadVideo();
+          safePlay();
+          section.classList.add("is-playing");
+          return;
+        }
+
+        safePause();
+        section.classList.remove("is-playing");
+      });
+    },
+    { threshold: [0, 0.35, 0.6] }
+  );
+
+  observer.observe(section);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      safePause();
+      return;
+    }
+
+    if (isVisible) {
+      safePlay();
+    }
+  });
+};
+
 const sectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -590,3 +722,4 @@ initHoverEffects();
 initParallax();
 initWorkShowcase();
 initWorksSlider();
+initCinematicVideoSection();
