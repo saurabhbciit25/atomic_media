@@ -126,18 +126,16 @@ const initCinematicVideoSection = () => {
       video.removeAttribute("data-src");
     }
     video.setAttribute("preload", "metadata");
-    video.load();
     isLoaded = true;
   };
 
   video.muted = true;
   video.loop = true;
   video.playsInline = true;
-  video.autoplay = true;
+  video.autoplay = false;
   video.setAttribute("muted", "");
   video.setAttribute("loop", "");
   video.setAttribute("playsinline", "");
-  video.setAttribute("autoplay", "");
   video.setAttribute("preload", "metadata");
   ensurePoster(video);
 
@@ -419,6 +417,8 @@ const initWorksSlider = () => {
     totalLabel.textContent = String(slides.length).padStart(2, "0");
   }
 
+  let sliderInView = false;
+
   const slideItems = slides
     .map((slide) => ({
       slide,
@@ -464,6 +464,15 @@ const initWorksSlider = () => {
     item.loaded = true;
   };
 
+  const playVideo = (item) => {
+    if (!item || !item.video) {
+      return;
+    }
+    loadVideo(item);
+    item.video.setAttribute("preload", "auto");
+    safePlay(item.video);
+  };
+
   slideItems.forEach((item) => {
     ensurePoster(item.video);
     item.video.setAttribute("preload", "none");
@@ -476,7 +485,7 @@ const initWorksSlider = () => {
 
     const handleReady = () => {
       markSlideReady(item);
-      if (item.isVisible) {
+      if (sliderInView && item.isVisible) {
         safePlay(item.video);
       }
     };
@@ -494,7 +503,7 @@ const initWorksSlider = () => {
           return;
         }
         const item = slideItems.find((candidate) => candidate.slide === entry.target);
-        if (item) {
+        if (item && sliderInView) {
           loadVideo(item);
         }
       });
@@ -510,9 +519,8 @@ const initWorksSlider = () => {
           return;
         }
         item.isVisible = entry.isIntersecting;
-        if (entry.isIntersecting) {
-          loadVideo(item);
-          safePlay(item.video);
+        if (entry.isIntersecting && sliderInView) {
+          playVideo(item);
         } else {
           safePause(item.video);
         }
@@ -520,11 +528,6 @@ const initWorksSlider = () => {
     },
     { root: viewport, threshold: 0.5 }
   );
-
-  slideItems.forEach((item) => {
-    lazyObserver.observe(item.slide);
-    playObserver.observe(item.slide);
-  });
 
   let activeIndex = -1;
   let pendingIndex = null;
@@ -601,6 +604,9 @@ const initWorksSlider = () => {
   };
 
   const startAutoplay = () => {
+    if (!sliderInView) {
+      return;
+    }
     if (autoTimer || slides.length < 2) {
       setProgress();
       return;
@@ -621,6 +627,45 @@ const initWorksSlider = () => {
       startAutoplay();
     }, resumeDelay);
   };
+
+  const syncVisibleSlides = () => {
+    slideItems.forEach((item) => {
+      if (sliderInView && item.isVisible) {
+        playVideo(item);
+        return;
+      }
+      safePause(item.video);
+    });
+  };
+
+  slideItems.forEach((item) => {
+    lazyObserver.observe(item.slide);
+    playObserver.observe(item.slide);
+  });
+
+  if (typeof IntersectionObserver === "undefined") {
+    sliderInView = true;
+  } else {
+    const sliderViewportObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target !== slider) {
+            return;
+          }
+          sliderInView = entry.isIntersecting;
+          if (sliderInView) {
+            syncVisibleSlides();
+            startAutoplay();
+            return;
+          }
+          stopAutoplay();
+          syncVisibleSlides();
+        });
+      },
+      { rootMargin: "120px 0px", threshold: 0.05 }
+    );
+    sliderViewportObserver.observe(slider);
+  }
 
   prevButton?.addEventListener("click", () => {
     handleInteraction();
@@ -895,7 +940,7 @@ initPageTransitions();
 initScrollReveal();
 initHoverEffects();
 initParallax();
+initCinematicVideoSection();
 initWorkShowcase();
 initWorksSlider();
 initStackMobileCarousel();
-initCinematicVideoSection();
