@@ -459,6 +459,8 @@ const initWorksSlider = () => {
     item.loaded = true;
   };
 
+  let isSliderVisible = false;
+
   slideItems.forEach((item) => {
     ensurePoster(item.video);
     item.video.setAttribute("preload", "none");
@@ -469,6 +471,9 @@ const initWorksSlider = () => {
 
   const lazyObserver = new IntersectionObserver(
     (entries) => {
+      if (!isSliderVisible) {
+        return;
+      }
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           return;
@@ -487,6 +492,10 @@ const initWorksSlider = () => {
       entries.forEach((entry) => {
         const item = slideItems.find((candidate) => candidate.slide === entry.target);
         if (!item || !item.video) {
+          return;
+        }
+        if (!isSliderVisible) {
+          safePause(item.video);
           return;
         }
         if (entry.isIntersecting) {
@@ -580,6 +589,9 @@ const initWorksSlider = () => {
   };
 
   const startAutoplay = () => {
+    if (!isSliderVisible) {
+      return;
+    }
     if (autoTimer || slides.length < 2) {
       setProgress();
       return;
@@ -719,13 +731,47 @@ const initWorksSlider = () => {
     goTo(activeIndex, "auto");
   });
 
-  slideItems.slice(0, 2).forEach((item) => {
-    item.video.setAttribute("preload", "auto");
-    loadVideo(item);
-    safePlay(item.video);
-  });
   goTo(0, "auto");
-  startAutoplay();
+
+  if (typeof IntersectionObserver === "undefined") {
+    isSliderVisible = true;
+    const firstItem = slideItems[0];
+    if (firstItem) {
+      loadVideo(firstItem);
+      safePlay(firstItem.video);
+    }
+    startAutoplay();
+    return;
+  }
+
+  const sectionVisibilityObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== slider) {
+          return;
+        }
+
+        const shouldBeVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+        isSliderVisible = shouldBeVisible;
+
+        if (!shouldBeVisible) {
+          stopAutoplay();
+          slideItems.forEach(({ video }) => safePause(video));
+          return;
+        }
+
+        const visibleItem = slideItems[activeIndex] || slideItems[0];
+        if (visibleItem) {
+          loadVideo(visibleItem);
+          safePlay(visibleItem.video);
+        }
+        startAutoplay();
+      });
+    },
+    { threshold: [0, 0.2, 0.5] }
+  );
+
+  sectionVisibilityObserver.observe(slider);
 };
 
 const initStackMobileCarousel = () => {
