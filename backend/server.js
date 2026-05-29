@@ -88,6 +88,8 @@ app.use("/api/upload", uploadRoutes);
 // Serve Frontend Static Files
 const frontendPath = path.join(__dirname, "../frontend");
 app.use(express.static(frontendPath));
+app.use("/frontend", express.static(frontendPath));
+app.use("/assets", express.static(path.join(frontendPath, "assets")));
 
 // Fallback to index.html for undefined frontend routes
 app.get("*", (req, res, next) => {
