@@ -719,7 +719,11 @@ const initWorksSlider = () => {
     goTo(activeIndex, "auto");
   });
 
-  slideItems.slice(0, 2).forEach((item) => loadVideo(item));
+  slideItems.slice(0, 2).forEach((item) => {
+    item.video.setAttribute("preload", "auto");
+    loadVideo(item);
+    safePlay(item.video);
+  });
   goTo(0, "auto");
   startAutoplay();
 };
