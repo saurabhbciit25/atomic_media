@@ -424,6 +424,7 @@ const initWorksSlider = () => {
       slide,
       video: slide.querySelector(".works-slide-video"),
       loaded: false,
+      isVisible: false,
     }))
     .filter((item) => item.video);
 
@@ -466,10 +467,24 @@ const initWorksSlider = () => {
   slideItems.forEach((item) => {
     ensurePoster(item.video);
     item.video.setAttribute("preload", "none");
-    item.video.addEventListener("loadedmetadata", () => markSlideReady(item), { once: true });
-    item.video.addEventListener("loadeddata", () => markSlideReady(item), { once: true });
-    item.video.addEventListener("canplay", () => markSlideReady(item), { once: true });
-    item.video.addEventListener("playing", () => markSlideReady(item), { once: true });
+    item.video.muted = true;
+    item.video.loop = true;
+    item.video.playsInline = true;
+    item.video.setAttribute("muted", "");
+    item.video.setAttribute("loop", "");
+    item.video.setAttribute("playsinline", "");
+
+    const handleReady = () => {
+      markSlideReady(item);
+      if (item.isVisible) {
+        safePlay(item.video);
+      }
+    };
+
+    item.video.addEventListener("loadedmetadata", handleReady);
+    item.video.addEventListener("loadeddata", handleReady);
+    item.video.addEventListener("canplay", handleReady);
+    item.video.addEventListener("playing", handleReady);
   });
 
   const lazyObserver = new IntersectionObserver(
@@ -494,6 +509,7 @@ const initWorksSlider = () => {
         if (!item || !item.video) {
           return;
         }
+        item.isVisible = entry.isIntersecting;
         if (entry.isIntersecting) {
           loadVideo(item);
           safePlay(item.video);
