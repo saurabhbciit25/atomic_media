@@ -89,7 +89,7 @@ const initCinematicVideoSection = () => {
   const source = video?.querySelector("source[data-src]");
   const audioToggle = section.querySelector("[data-cinematic-audio-toggle]");
 
-  if (!video || !source) {
+  if (!video) {
     return;
   }
 
@@ -113,13 +113,18 @@ const initCinematicVideoSection = () => {
     if (isLoaded) {
       return;
     }
-    const sourcePath = source.dataset.src?.trim();
+    const sourcePath = source?.dataset.src?.trim() || video.dataset.src?.trim();
     if (!sourcePath) {
       return;
     }
     ensurePoster(video);
-    source.src = sourcePath;
-    source.removeAttribute("data-src");
+    if (source) {
+      source.src = sourcePath;
+      source.removeAttribute("data-src");
+    } else {
+      video.src = sourcePath;
+      video.removeAttribute("data-src");
+    }
     video.setAttribute("preload", "metadata");
     video.load();
     isLoaded = true;
@@ -454,6 +459,8 @@ const initWorksSlider = () => {
     item.loaded = true;
   };
 
+  let isSliderVisible = false;
+
   slideItems.forEach((item) => {
     ensurePoster(item.video);
     item.video.setAttribute("preload", "none");
@@ -464,6 +471,9 @@ const initWorksSlider = () => {
 
   const lazyObserver = new IntersectionObserver(
     (entries) => {
+      if (!isSliderVisible) {
+        return;
+      }
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           return;
@@ -482,6 +492,10 @@ const initWorksSlider = () => {
       entries.forEach((entry) => {
         const item = slideItems.find((candidate) => candidate.slide === entry.target);
         if (!item || !item.video) {
+          return;
+        }
+        if (!isSliderVisible) {
+          safePause(item.video);
           return;
         }
         if (entry.isIntersecting) {
@@ -575,6 +589,9 @@ const initWorksSlider = () => {
   };
 
   const startAutoplay = () => {
+    if (!isSliderVisible) {
+      return;
+    }
     if (autoTimer || slides.length < 2) {
       setProgress();
       return;
@@ -715,7 +732,193 @@ const initWorksSlider = () => {
   });
 
   goTo(0, "auto");
-  startAutoplay();
+
+  if (typeof IntersectionObserver === "undefined") {
+    isSliderVisible = true;
+    const firstItem = slideItems[0];
+    if (firstItem) {
+      loadVideo(firstItem);
+      safePlay(firstItem.video);
+    }
+    startAutoplay();
+    return;
+  }
+
+  const sectionVisibilityObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== slider) {
+          return;
+        }
+
+        const shouldBeVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+        isSliderVisible = shouldBeVisible;
+
+        if (!shouldBeVisible) {
+          stopAutoplay();
+          slideItems.forEach(({ video }) => safePause(video));
+          return;
+        }
+
+        const visibleItem = slideItems[activeIndex] || slideItems[0];
+        if (visibleItem) {
+          loadVideo(visibleItem);
+          safePlay(visibleItem.video);
+        }
+        startAutoplay();
+      });
+    },
+    { threshold: [0, 0.2, 0.5] }
+  );
+
+  sectionVisibilityObserver.observe(slider);
+};
+
+const initStackMobileCarousel = () => {
+  const carousel = document.querySelector(".stack-grid");
+  if (!carousel) {
+    return;
+  }
+
+  const cards = Array.from(carousel.querySelectorAll(".stack-card"));
+  const mobileQuery = window.matchMedia("(max-width: 767.98px)");
+  const autoplayDelay = 4000;
+  const resumeDelay = 3000;
+  let activeIndex = 0;
+  let autoTimer = null;
+  let resumeTimer = null;
+  let scrollTimer = null;
+  let isPaused = false;
+
+  if (cards.length < 2) {
+    return;
+  }
+
+  const getOffsetFor = (card) => {
+    const centerOffset = (carousel.clientWidth - card.clientWidth) / 2;
+    return Math.max(0, card.offsetLeft - centerOffset);
+  };
+
+  const goTo = (index, behavior = "smooth") => {
+    if (!mobileQuery.matches) {
+      return;
+    }
+    activeIndex = (index + cards.length) % cards.length;
+    carousel.scrollTo({ left: getOffsetFor(cards[activeIndex]), behavior });
+  };
+
+  const getNearestIndex = () => {
+    const center = carousel.scrollLeft + carousel.clientWidth / 2;
+    let closestIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const distance = Math.abs(center - cardCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    return closestIndex;
+  };
+
+  const stopAutoplay = () => {
+    if (!autoTimer) {
+      return;
+    }
+    window.clearInterval(autoTimer);
+    autoTimer = null;
+  };
+
+  const startAutoplay = () => {
+    if (!mobileQuery.matches || autoTimer || isPaused) {
+      return;
+    }
+    autoTimer = window.setInterval(() => {
+      goTo(activeIndex + 1);
+    }, autoplayDelay);
+  };
+
+  const pauseForInteraction = () => {
+    if (!mobileQuery.matches) {
+      return;
+    }
+    isPaused = true;
+    carousel.classList.add("is-user-interacting");
+    stopAutoplay();
+    if (resumeTimer) {
+      window.clearTimeout(resumeTimer);
+    }
+  };
+
+  const resumeAfterInteraction = () => {
+    if (!mobileQuery.matches) {
+      return;
+    }
+    activeIndex = getNearestIndex();
+    carousel.classList.remove("is-user-interacting");
+    if (resumeTimer) {
+      window.clearTimeout(resumeTimer);
+    }
+    resumeTimer = window.setTimeout(() => {
+      isPaused = false;
+      startAutoplay();
+    }, resumeDelay);
+  };
+
+  const syncMode = () => {
+    stopAutoplay();
+    if (resumeTimer) {
+      window.clearTimeout(resumeTimer);
+      resumeTimer = null;
+    }
+    isPaused = false;
+    carousel.classList.remove("is-user-interacting");
+
+    if (!mobileQuery.matches) {
+      carousel.scrollTo({ left: 0, behavior: "auto" });
+      activeIndex = 0;
+      return;
+    }
+
+    goTo(activeIndex, "auto");
+    startAutoplay();
+  };
+
+  carousel.addEventListener("touchstart", pauseForInteraction, { passive: true });
+  carousel.addEventListener("touchend", resumeAfterInteraction, { passive: true });
+  carousel.addEventListener("touchcancel", resumeAfterInteraction, { passive: true });
+  carousel.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+    pauseForInteraction();
+  });
+  carousel.addEventListener("pointerup", resumeAfterInteraction);
+  carousel.addEventListener("pointercancel", resumeAfterInteraction);
+
+  carousel.addEventListener("scroll", () => {
+    if (!mobileQuery.matches) {
+      return;
+    }
+    if (scrollTimer) {
+      window.clearTimeout(scrollTimer);
+    }
+    scrollTimer = window.setTimeout(() => {
+      activeIndex = getNearestIndex();
+    }, 120);
+  }, { passive: true });
+
+  mobileQuery.addEventListener?.("change", syncMode);
+  window.addEventListener("resize", () => {
+    if (mobileQuery.matches) {
+      goTo(activeIndex, "auto");
+    }
+  });
+
+  syncMode();
 };
 
 initPageTransitions();
@@ -724,4 +927,5 @@ initHoverEffects();
 initParallax();
 initWorkShowcase();
 initWorksSlider();
+initStackMobileCarousel();
 initCinematicVideoSection();

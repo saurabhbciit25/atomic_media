@@ -1,4 +1,7 @@
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px 32px;
   border-radius: var(--radius-md);
   border: 1px solid transparent;

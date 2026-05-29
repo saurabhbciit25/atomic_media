@@ -39,7 +39,8 @@
   position: relative;
   width: min(100%, 100vw);
  
-  height: clamp(45vh, 72vh, 90vh);
+  aspect-ratio: 2/ 1;
+  height: auto;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -357,7 +358,7 @@
     position: relative;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2 / 1;
     max-height: 56vh;
     border-radius: 16px;
     transform: none;

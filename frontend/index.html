@@ -137,17 +137,15 @@
           </button>
           <video
             class="cinematic-video"
-            autoplay
             muted
             loop
             playsinline
-            preload="metadata"
+            preload="none"
             aria-label="Atomic Media final showreel"
             width="1920"
             height="1080"
-          >
-            <source data-src="./assets/videos/final_showreel.mp4" type="video/mp4">
-          </video>
+            data-src="./assets/videos/final_showreel.mp4"
+          ></video>
           
           <div class="cinematic-video-glow cinematic-video-glow-left" aria-hidden="true"></div>
           <div class="cinematic-video-glow cinematic-video-glow-right" aria-hidden="true"></div>
@@ -394,12 +392,19 @@
             <p class="eyebrow">GALLERY OF EXCELLENCE</p>
             <h2>SELECTED WORKS</h2>
           </div>
-          <button class="btn ghost" type="button">VIEW ALL PROJECTS</button>
+          <a class="btn ghost" href="projects_dashboard.html">VIEW ALL PROJECTS</a>
         </div>
         <div class="works-grid container reveal">
-          <article class="work-card work-large hover-glow" data-videos="assets/videos/Stop motion/Picture 2.mp4|assets/videos/Stop motion/Picture 3.mp4">
+          <article class="work-card work-large hover-glow" data-videos="assets/videos/stop-motion/video-1.mp4|assets/videos/stop-motion/video-2.mp4">
             <div class="work-media">
-              <video class="work-video" data-src="assets/videos/Stop motion/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+              <video class="work-video" 
+              data-src="assets/videos/stop-motion/video-1.mp4" 
+              autoplay 
+              muted 
+              loop 
+              playsinline 
+              preload="none"
+              ></video>
             </div>
             <div class="work-overlay"></div>
             <div class="work-info">
@@ -410,9 +415,16 @@
               </div>
             </div>
           </article>
-          <article class="work-card work-tall hover-glow" data-videos="assets/videos/Reel edits/Picture 2.mp4|assets/videos/Reel edits/Picture 3.mp4|assets/videos/Reel edits/Picture 4.mp4">
+          <article class="work-card work-tall hover-glow" data-videos="assets/videos/reel-edits/video-3.mp4|assets/videos/reel-edits/video-4.mp4|assets/videos/reel-edits/video-5.mp4">
             <div class="work-media">
-              <video class="work-video" data-src="assets/videos/Reel edits/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+              <video class="work-video" 
+              data-src="assets/videos/reel-edits/video-3.mp4" 
+              autoplay 
+              muted 
+              loop
+              playsinline 
+              preload="none"
+              ></video>
             </div>
             <div class="work-overlay"></div>
             <div class="work-info">
@@ -430,7 +442,14 @@
             <div class="works-slider-track">
               <article class="works-slide" data-title="CGI">
                 <div class="works-slide-media">
-                  <video class="works-slide-video" data-src="./assets/videos/Edits/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+                  <video class="works-slide-video" 
+                  data-src="./assets/videos/edits/video-6.mp4" 
+                  autoplay 
+                  muted 
+                  loop 
+                  playsinline 
+                  preload="none"
+                  ></video>
                 </div>
                 <div class="works-slide-overlay"></div>
                 <div class="works-slide-info">
@@ -443,7 +462,14 @@
               </article>
               <article class="works-slide" data-title="CGI">
                 <div class="works-slide-media">
-                  <video class="works-slide-video" data-src="assets/videos/CGI/Picture 3.mp4" autoplay muted loop playsinline preload="none"></video>
+                  <video class="works-slide-video" 
+                  data-src="assets/videos/cgi/video-7.mp4" 
+                  autoplay 
+                  muted 
+                  loop 
+                  playsinline 
+                  preload="none"
+                  ></video>
                 </div>
                 <div class="works-slide-overlay"></div>
                 <div class="works-slide-info">
@@ -456,7 +482,14 @@
               </article>
               <article class="works-slide" data-title="VFX AND GRAPHICS">
                 <div class="works-slide-media">
-                  <video class="works-slide-video" data-src="assets/videos/VFX AND GRAPHICS/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+                  <video class="works-slide-video" 
+                  data-src="assets/videos/vfx-graphics/video-8.mp4" 
+                  autoplay 
+                  muted 
+                  loop 
+                  playsinline 
+                  preload="none"
+                  ></video>
                 </div>
                 <div class="works-slide-overlay"></div>
                 <div class="works-slide-info">

@@ -268,21 +268,26 @@
   }
 
   .stack-grid-canvas {
-    padding-inline: 24px;
+    overflow: hidden;
+    padding-inline: 0;
     padding-bottom: 96px;
   }
 
   .stack-grid {
     display: flex;
     align-items: stretch;
-    gap: 20px;
+    gap: 18px;
+    width: 100%;
+    margin-inline: 0;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding: 24px;
+    scroll-padding-inline: 32px;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
-    padding-bottom: 6px;
+    padding: 18px 32px 6px;
     scrollbar-width: none;
+    touch-action: pan-x pan-y;
   }
 
   .stack-grid::-webkit-scrollbar {
@@ -290,8 +295,10 @@
   }
 
   .stack-card {
-    flex: 0 0 clamp(240px, 78vw, 320px);
-    scroll-snap-align: start;
+    flex: 0 0 min(86vw, 360px);
+    min-height: 360px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   .stack-row-separator {
@@ -313,6 +320,15 @@
     opacity: 0.55;
   }
 
+  .stack-action:hover::before {
+    transform: translate(-50%, -50%);
+    background: rgba(255, 181, 158, 0.08);
+  }
+
+  .stack-grid.is-user-interacting {
+    scroll-behavior: auto;
+  }
+
   .stack-grid-canvas::before {
     inset-inline: 24px;
     background:
@@ -331,7 +347,20 @@
   }
 
   .process-line {
-    display: none;
+    display: block;
+    left: 56px;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.18) 18%,
+      rgba(255, 255, 255, 0.18) 82%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
   }
 
   .cta-card {
@@ -362,6 +391,27 @@
   .works-slide-info {
     left: 20px;
     bottom: 20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 768px) {
+  .stack-grid-canvas {
+    overflow: visible;
+    padding-inline: 48px;
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+  }
+
+  .stack-card {
+    flex: initial;
+    scroll-snap-align: none;
   }
 }
 
