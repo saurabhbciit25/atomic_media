@@ -169,6 +169,7 @@
   transition: opacity 0.6s ease, filter 0.6s ease;
 }
 
+.works-slide.is-loading .works-slide-video,
 .works-slide.is-ready .works-slide-video {
   opacity: 1;
 }

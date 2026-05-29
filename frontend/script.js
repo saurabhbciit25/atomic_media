@@ -427,6 +427,10 @@ const initWorksSlider = () => {
     }))
     .filter((item) => item.video);
 
+  const markSlideReady = (item) => {
+    item?.slide?.classList.add("is-ready");
+  };
+
   const safePlay = (video) => {
     if (!video || !video.paused) {
       return;
@@ -455,16 +459,17 @@ const initWorksSlider = () => {
     ensurePoster(item.video);
     item.video.setAttribute("preload", "metadata");
     item.video.src = source;
-    item.video.load();
+    item.slide.classList.add("is-loading");
     item.loaded = true;
   };
 
   slideItems.forEach((item) => {
     ensurePoster(item.video);
     item.video.setAttribute("preload", "none");
-    item.video.addEventListener("loadeddata", () => {
-      item.slide.classList.add("is-ready");
-    });
+    item.video.addEventListener("loadedmetadata", () => markSlideReady(item), { once: true });
+    item.video.addEventListener("loadeddata", () => markSlideReady(item), { once: true });
+    item.video.addEventListener("canplay", () => markSlideReady(item), { once: true });
+    item.video.addEventListener("playing", () => markSlideReady(item), { once: true });
   });
 
   const lazyObserver = new IntersectionObserver(
