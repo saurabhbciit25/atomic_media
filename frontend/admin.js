@@ -215,13 +215,35 @@
     let sum = 0;
     messages.forEach((m) => {
       const text = ((m.subject || "") + (m.message || "")).toLowerCase();
-      if (text.includes("<$5k") || text.includes("< $5,000") || text.includes("under $5k")) sum += 2500;
-      else if (text.includes("$5k-$15k") || text.includes("$5,000 - $15,000")) sum += 10000;
-      else if (text.includes("$15k-$50k") || text.includes("$15,000 - $50,000")) sum += 32500;
-      else if (text.includes("$50k+") || text.includes("$50,000+")) sum += 75000;
-      else sum += 5000;
+      
+      // Match INR / Rupees
+      if (text.includes("< 50,000 inr") || text.includes("under 50k") || text.includes("50,000 inr") && text.includes("<")) {
+        sum += 25000;
+      } else if (text.includes("50,000 - 1,50,000 inr") || text.includes("50,000 - 1,50,000")) {
+        sum += 100000;
+      } else if (text.includes("1,50,000 - 5,00,000 inr") || text.includes("1,50,000 - 5,00,000")) {
+        sum += 325000;
+      } else if (text.includes("5,00,000+ inr") || text.includes("5,00,000+")) {
+        sum += 750000;
+      }
+      // Match Legacy USD (and convert to INR at an exchange rate of 1 USD = 83 INR)
+      else if (text.includes("<$5k") || text.includes("< $5,000") || text.includes("under $5k")) {
+        sum += 2500 * 83;
+      } else if (text.includes("$5k-$15k") || text.includes("$5,000 - $15,000")) {
+        sum += 10000 * 83;
+      } else if (text.includes("$15k-$50k") || text.includes("$15,000 - $50,000")) {
+        sum += 32500 * 83;
+      } else if (text.includes("$50k+") || text.includes("$50,000+")) {
+        sum += 75000 * 83;
+      } else if (text.includes("$")) {
+        sum += 5000 * 83;
+      }
+      // General default fallback in INR
+      else {
+        sum += 50000;
+      }
     });
-    return sum.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    return sum.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
   }
 
   function renderDashboardKPIs() {

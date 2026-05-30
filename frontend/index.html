@@ -13,6 +13,7 @@
 <body>
   <div class="page-loader" aria-hidden="true">
     <div class="loader-ring"></div>
+    
   </div>
 
   <div class="page">
@@ -21,7 +22,8 @@
     <header class="nav-shell">
       <div class="nav-card container-wide">
         <div class="brand">
-          <span class="wordmark brand-name"></span>ATOMIC MEDIA<span class="wordmark-dot">.</span></span>
+          <img class="brand-logo" src="assets/images/Logo.svg" alt="Atomic Media logo">
+          <span class="wordmark brand-name">ATOMIC MEDIA<span class="wordmark-dot">.</span></span>
         </div>
          
         <nav class="nav-links" aria-label="Primary">
@@ -30,6 +32,7 @@
           <button class="nav-link active" type="button" data-target="stack">Services</button>
           <button class="nav-link" type="button" data-target="works">Work</button>
           <button class="nav-link" type="button" data-target="process">Process</button>
+          <button class="nav-link" type="button" data-target="testimonials">Testimonials</button>
           <button class="nav-link" type="button" data-target="contact">Contact</button>
         </nav>
         <button class="nav-cta" type="button" data-inquiry-trigger>GET STARTED</button>
@@ -42,7 +45,10 @@
       <div class="nav-mobile" id="mobile-menu" aria-hidden="true">
         <div class="nav-mobile-panel">
           <div class="nav-mobile-header">
-            <div class="nav-mobile-logo wordmark">ATOMIC MEDIA<span class="wordmark-dot">.</span></div>
+            <div class="nav-mobile-logo">
+              <img class="brand-logo" src="assets/images/Logo.svg" alt="Atomic Media logo">
+              <span class="wordmark">ATOMIC MEDIA<span class="wordmark-dot">.</span></span>
+            </div>
             <button class="nav-close" type="button" aria-label="Close navigation">
               <span></span>
               <span></span>
@@ -54,6 +60,7 @@
             <button class="nav-link" type="button" data-target="stack">Services</button>
             <button class="nav-link" type="button" data-target="works">Work</button>
             <button class="nav-link" type="button" data-target="process">Process</button>
+            <button class="nav-link" type="button" data-target="testimonials">Testimonials</button>
             <button class="nav-link" type="button" data-target="contact">Contact</button>
           </nav>
         </div>
@@ -121,6 +128,32 @@
 
       <div class="section-divider" aria-hidden="true"></div>
 
+      <section class="cinematic-video-section reveal" data-cinematic-video>
+        <div class="cinematic-video-shell hover-glow">
+          <button class="cinematic-audio-toggle" type="button" aria-pressed="false" aria-label="Unmute video" data-cinematic-audio-toggle>
+            <img class="cinematic-audio-icon cinematic-audio-icon-muted" src="assets/icons/mute.png" alt="" aria-hidden="true">
+            <img class="cinematic-audio-icon cinematic-audio-icon-volume" src="assets/icons/volume.png" alt="" aria-hidden="true">
+            <span class="cinematic-audio-toggle-label">UNMUTE</span>
+          </button>
+          <video
+            class="cinematic-video"
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label="Atomic Media final showreel"
+            width="1920"
+            height="1080"
+            data-src="./assets/videos/final_showreel.mp4"
+          ></video>
+          
+          <div class="cinematic-video-glow cinematic-video-glow-left" aria-hidden="true"></div>
+          <div class="cinematic-video-glow cinematic-video-glow-right" aria-hidden="true"></div>
+          <div class="cinematic-video-content">
+          </div>
+        </div>
+      </section>
+      
       <section class="clients reveal">
         <p class="clients-label">RELIANCE BY GLOBAL LEADERS</p>
         <div class="brand-marquee" aria-label="Trusted brand logos">
@@ -244,7 +277,9 @@
               <p>Cinematic identity systems that command attention and define industry standards.</p>
               <div class="stack-meta">
                 <span>SYSTEM://ID</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <article class="stack-card">
@@ -254,7 +289,9 @@
               <p>Aggressive growth hacking powered by data-driven creative and real-time optimization.</p>
               <div class="stack-meta">
                 <span>CORE://GROWTH</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <article class="stack-card">
@@ -264,7 +301,9 @@
               <p>Cultural resonance engineering through viral content loops and community scaling.</p>
               <div class="stack-meta">
                 <span>NODE://CONNECT</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <div class="stack-row-separator" aria-hidden="true"></div>
@@ -275,7 +314,9 @@
               <p>Bespoke LLM integration and workflow optimization for hyper-efficient operations.</p>
               <div class="stack-meta">
                 <span>INTEL://NEURAL</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <article class="stack-card">
@@ -285,7 +326,9 @@
               <p>Futuristic interfaces and seamless journeys that prioritize aesthetic addiction.</p>
               <div class="stack-meta">
                 <span>CORE://VISUAL</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <article class="stack-card">
@@ -295,7 +338,9 @@
               <p>High-performance digital foundations built with cutting-edge technical stacks.</p>
               <div class="stack-meta">
                 <span>SYS://ENGINE</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <div class="stack-row-separator" aria-hidden="true"></div>
@@ -306,7 +351,9 @@
               <p>Surgical precision targeting across all major ad networks for maximum ROI.</p>
               <div class="stack-meta">
                 <span>TRAFFIC://NODE</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <article class="stack-card">
@@ -316,7 +363,9 @@
               <p>Cinematic-grade visual assets designed to stop the scroll and drive conversion.</p>
               <div class="stack-meta">
                 <span>PROD://CINEMA</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
             <article class="stack-card">
@@ -326,7 +375,9 @@
               <p>Search authority dominance through technical excellence and semantic optimization.</p>
               <div class="stack-meta">
                 <span>INDEX://AUTH</span>
-                <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="">
+                <button class="stack-action" type="button" aria-label="Learn more">
+                  <img src="assets/icons/Atomic Media_icon/Icon-16.svg" alt="" aria-hidden="true">
+                </button>
               </div>
             </article>
           </div>
@@ -341,12 +392,19 @@
             <p class="eyebrow">GALLERY OF EXCELLENCE</p>
             <h2>SELECTED WORKS</h2>
           </div>
-          <button class="btn ghost" type="button">VIEW ALL PROJECTS</button>
+          <a class="btn ghost" href="projects_dashboard.html">VIEW ALL PROJECTS</a>
         </div>
         <div class="works-grid container reveal">
-          <article class="work-card work-large hover-glow" data-videos="assets/videos/Stop motion/Picture 2.mp4|assets/videos/Stop motion/Picture 3.mp4">
+          <article class="work-card work-large hover-glow" data-videos="assets/videos/stop-motion/video-1.mp4|assets/videos/stop-motion/video-2.mp4">
             <div class="work-media">
-              <video class="work-video" data-src="assets/videos/Stop motion/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+              <video class="work-video" 
+              data-src="assets/videos/stop-motion/video-1.mp4" 
+              autoplay 
+              muted 
+              loop 
+              playsinline 
+              preload="none"
+              ></video>
             </div>
             <div class="work-overlay"></div>
             <div class="work-info">
@@ -357,9 +415,16 @@
               </div>
             </div>
           </article>
-          <article class="work-card work-tall hover-glow" data-videos="assets/videos/Reel edits/Picture 2.mp4|assets/videos/Reel edits/Picture 3.mp4|assets/videos/Reel edits/Picture 4.mp4">
+          <article class="work-card work-tall hover-glow" data-videos="assets/videos/reel-edits/video-3.mp4|assets/videos/reel-edits/video-4.mp4|assets/videos/reel-edits/video-5.mp4">
             <div class="work-media">
-              <video class="work-video" data-src="assets/videos/Reel edits/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+              <video class="work-video" 
+              data-src="assets/videos/reel-edits/video-3.mp4" 
+              autoplay 
+              muted 
+              loop
+              playsinline 
+              preload="none"
+              ></video>
             </div>
             <div class="work-overlay"></div>
             <div class="work-info">
@@ -375,22 +440,34 @@
         <div class="works-slider container reveal" data-works-slider>
           <div class="works-slider-viewport" role="region" aria-label="Cinematic video slider">
             <div class="works-slider-track">
-              <article class="works-slide" data-title="CGI">
+              <article class="works-slide" data-title="EDITS">
                 <div class="works-slide-media">
-                  <video class="works-slide-video" data-src="./assets/videos/Edits/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+                  <video class="works-slide-video" 
+                  data-src="./assets/videos/Edits/video-6.mp4" 
+                  muted 
+                  loop 
+                  playsinline 
+                  preload="none"
+                  ></video>
                 </div>
                 <div class="works-slide-overlay"></div>
                 <div class="works-slide-info">
                   <h4>EDITS</h4>
                   <div class="works-slide-tags">
-                    <span>CGI</span>
-                    <span>Worldbuilding</span>
+                    <span>Edits</span>
+                    <span>Editorial</span>
                   </div>
                 </div>
               </article>
               <article class="works-slide" data-title="CGI">
                 <div class="works-slide-media">
-                  <video class="works-slide-video" data-src="assets/videos/CGI/Picture 3.mp4" autoplay muted loop playsinline preload="none"></video>
+                  <video class="works-slide-video" 
+                  data-src="assets/videos/CGI/video-7.mp4" 
+                  muted 
+                  loop 
+                  playsinline 
+                  preload="none"
+                  ></video>
                 </div>
                 <div class="works-slide-overlay"></div>
                 <div class="works-slide-info">
@@ -403,7 +480,13 @@
               </article>
               <article class="works-slide" data-title="VFX AND GRAPHICS">
                 <div class="works-slide-media">
-                  <video class="works-slide-video" data-src="assets/videos/VFX AND GRAPHICS/Picture 2.mp4" autoplay muted loop playsinline preload="none"></video>
+                  <video class="works-slide-video" 
+                  data-src="assets/videos/vfx-graphics/video-8.mp4" 
+                  muted 
+                  loop 
+                  playsinline 
+                  preload="none"
+                  ></video>
                 </div>
                 <div class="works-slide-overlay"></div>
                 <div class="works-slide-info">
@@ -480,6 +563,79 @@
           </div>
         </div>
       </section>
+       <section class="testimonials" id="testimonials">
+        <div class="testimonials-heading container reveal">
+          <div>
+      
+            <h2>TESTIMONIALS</h2>
+          </div>
+          <p>Signals from founders and growth teams who scaled with Atomic Media.</p>
+        </div>
+        <div class="testimonials-track container">
+          <div class="testimonials-grid reveal">
+            <article class="testimonial-card" tabindex="0">
+              <div class="testimonial-media media-elena" aria-hidden="true"></div>
+              <div class="testimonial-body">
+                <div class="testimonial-header">
+                  <div class="testimonial-identity">
+                    <h3>Elena Vance</h3>
+                    <p>Marketing Lead, Aether Mobility</p>
+                  </div>
+                  <span class="testimonial-verified">Verified</span>
+                </div>
+                <p class="testimonial-quote">
+                  Marketing lead focused on aggressive brand storytelling for next-gen mobility
+                  startups.
+                </p>
+                <div class="testimonial-meta">
+                  <span class="testimonial-service">Storytelling</span>
+                  <button class="btn ghost">Follow +</button>
+                </div>
+              </div>
+            </article>
+            <article class="testimonial-card" tabindex="0">
+              <div class="testimonial-media media-marcus" aria-hidden="true"></div>
+              <div class="testimonial-body">
+                <div class="testimonial-header">
+                  <div class="testimonial-identity">
+                    <h3>Marcus Thorne</h3>
+                    <p>Founder, Nexus Labs</p>
+                  </div>
+                  <span class="testimonial-verified">Verified</span>
+                </div>
+                <p class="testimonial-quote">
+                  Redefining the intersection of AI architecture and human emotion with a bold,
+                  cinematic digital launch.
+                </p>
+                <div class="testimonial-meta">
+                  <span class="testimonial-service">AI Strategy</span>
+                  <button class="btn ghost">Follow +</button>
+                </div>
+              </div>
+            </article>
+            <article class="testimonial-card" tabindex="0">
+              <div class="testimonial-media media-sophie" aria-hidden="true"></div>
+              <div class="testimonial-body">
+                <div class="testimonial-header">
+                  <div class="testimonial-identity">
+                    <h3>Sophie Bennett</h3>
+                    <p>Creative Director, Northwind Studio</p>
+                  </div>
+                  <span class="testimonial-verified">Verified</span>
+                </div>
+                <p class="testimonial-quote">
+                  A creative director who focuses on simplicity and cinematic usability across
+                  digital ecosystems.
+                </p>
+                <div class="testimonial-meta">
+                  <span class="testimonial-service">Product Design</span>
+                 <button class="btn ghost">Follow +</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
       <div class="section-divider" aria-hidden="true"></div>
 
@@ -513,14 +669,27 @@
             BRIDGING THE GAP BETWEEN CINEMATIC LUXURY AND FUTURISTIC TECHNOLOGY. WE ARE THE ATOMIC
             CATALYST FOR YOUR BRAND&apos;S EVOLUTION.
           </p>
+          <p class="footer-contact">CONTACT US</p>
           <a class="footer-email" href="mailto:info@atomicmedia.in">info@atomicmedia.in</a>
+          <p class="footer-social-title">FOLLOW US</p>
+          <div class="footer-social">
+            <a class="footer-social-link" href="https://www.instagram.com/atomic.media.in?igsh=MWFrbGh3a3ppbnMwaQ==" target="_self" rel="noopener noreferrer" aria-label="Instagram" >
+              <img src="./assets/icons/Social Media/instagram.png" alt="Instagram">
+            </a>
+            <a class="footer-social-link" href="https://www.linkedin.com/company/atomic-mediaa/" target="_self" rel="noopener noreferrer" aria-label="LinkedIn" >
+              <img src="./assets/icons/Social Media/linkedin.png" alt="LinkedIn">
+            </a>
+          </div>
         </div>
+       
+      
         <div>
           <h4>EXPLORE</h4>
-          <p>Services</p>
-          <p>Work</p>
-          <p>Process</p>
-          <p>Contact</p>
+          <a class="footer-link" href="#stack">Services</a>
+          <a class="footer-link" href="#works">Work</a>
+          <a class="footer-link" href="#process">Process</a>
+          <a class="footer-link" href="#testimonials">Testimonials</a>
+          <a class="footer-link" href="#contact">Contact</a>
         </div>
         <div>
           <h4>LEGAL</h4>
@@ -532,17 +701,6 @@
       </div>
       <div class="footer-bottom container-wide">
         <span>© 2024 <span class="wordmark wordmark-small">ATOMIC MEDIA<span class="wordmark-dot">.</span></span> ALL RIGHTS RESERVED.</span>
-        <div class="footer-social">
-          <a class="footer-social-link" href="https://www.instagram.com/atomic.media.in?igsh=MWFrbGh3a3ppbnMwaQ==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-tooltip="Instagram">
-            <img src="./assets/icons/Social Media/instagram.png" alt="Instagram">
-          </a>
-          <a class="footer-social-link" href="https://www.linkedin.com/company/atomic-mediaa/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-tooltip="LinkedIn">
-            <img src="./assets/icons/Social Media/linkedin.png" alt="LinkedIn">
-          </a>
-          <a class="footer-social-link" href="mailto:info@atomicmedia.in" target="_blank" rel="noopener noreferrer" aria-label="Email" data-tooltip="Email">
-            <img src="./assets/icons/Social Media/mail.png" alt="Email">
-          </a>
-        </div>
       </div>
     </footer>
   </div>
@@ -589,10 +747,10 @@
             <label for="inquiryBudget">BUDGET RANGE</label>
             <select id="inquiryBudget" required>
               <option value="" disabled selected>CHOOSE ALLOCATION...</option>
-              <option value="<$5k">&lt; $5,000</option>
-              <option value="$5k-$15k">$5,000 - $15,000</option>
-              <option value="$15k-$50k">$15,000 - $50,000</option>
-              <option value="$50k+">$50,000+</option>
+              <option value="< 50,000 INR">&lt; ₹50,000</option>
+              <option value="50,000 - 1,50,000 INR">₹50,000 - ₹1,50,000</option>
+              <option value="1,50,000 - 5,00,000 INR">₹1,50,000 - ₹5,00,000</option>
+              <option value="5,00,000+ INR">₹5,00,000+</option>
             </select>
           </div>
         </div>

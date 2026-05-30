@@ -1,5 +1,8 @@
 .btn {
-  padding: 14px 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 32px;
   border-radius: var(--radius-md);
   border: 1px solid transparent;
   font-family: var(--font-ui);
@@ -9,6 +12,7 @@
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 
 .btn.primary {
   background: var(--accent);
@@ -24,4 +28,12 @@
   background: var(--surface);
   border: 1px solid var(--border-strong);
   color: var(--text);
+}
+
+
+
+.btn.ghost:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(26, 26, 26, 0.25);
+  border-color: rgba(255, 181, 158, 0.4);
 }

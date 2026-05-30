@@ -1,5 +1,5 @@
 .works {
-  padding: 80px 0 120px;
+  padding: 88px 0 120px;
 }
 
 .works-heading {
@@ -169,6 +169,7 @@
   transition: opacity 0.6s ease, filter 0.6s ease;
 }
 
+.works-slide.is-loading .works-slide-video,
 .works-slide.is-ready .works-slide-video {
   opacity: 1;
 }
@@ -229,6 +230,46 @@
 
   .works-slide:hover .works-slide-overlay {
     opacity: 0.7;
+  }
+}
+
+@media (max-width: 768px) {
+  .works-slide:hover {
+    transform: none;
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .works-slide:hover::before {
+    opacity: 0;
+  }
+
+  .works-slide:hover .works-slide-video {
+    filter: saturate(0.9) brightness(0.8) contrast(1.12);
+  }
+
+  .works-slide:hover .works-slide-overlay {
+    opacity: 0.9;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .works-slide:hover {
+    transform: none;
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .works-slide:hover::before {
+    opacity: 0;
+  }
+
+  .works-slide:hover .works-slide-video {
+    filter: saturate(0.9) brightness(0.8) contrast(1.12);
+  }
+
+  .works-slide:hover .works-slide-overlay {
+    opacity: 0.9;
   }
 }
 

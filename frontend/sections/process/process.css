@@ -51,7 +51,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 35px;
+  top: 55px; /* lowered slightly to sit a bit below the card header */
   height: 1px;
   background: rgba(255, 255, 255, 0.1);
 }
@@ -65,6 +65,54 @@
 .process-step {
   display: grid;
   gap: 16px;
+  position: relative;
+  padding: 22px 22px 24px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.process-step::before,
+.process-step::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.process-step::before {
+  height: 2px;
+  top: 23px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 153, 117, 0), rgba(255, 153, 117, 0.35), rgba(255, 153, 117, 0));
+  filter: blur(0.8px);
+}
+
+.process-step::after {
+  top: -10px;
+  height: 3px;
+  border-radius: 1500px;
+  background: linear-gradient(90deg, rgba(255, 177, 146, 0), rgba(255, 126, 70, 0.691), rgba(255, 87, 26, 0.96), rgba(255, 125, 70, 0.72), rgba(255, 177, 146, 0));
+  filter: blur(2.6px);
+  box-shadow: 0 0 18px rgba(255, 119, 64, 0.8), 0 0 36px rgba(255, 104, 44, 0.52), 0 0 64px rgba(255, 87, 26, 0.3);
+}
+
+.process-step:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 181, 158, 0.35);
+  background: linear-gradient(180deg, rgba(255, 181, 158, 0.26), rgba(255, 87, 26, 0.44));
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), 0 0 22px rgba(255, 87, 26, 0.22);
+}
+
+.process-step:hover::before {
+  opacity: 0.45;
+}
+
+.process-step:hover::after {
+  opacity: 1;
+  animation: process-scan 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .step-icon {
@@ -92,3 +140,17 @@
   color: rgba(226, 226, 226, 0.5);
   line-height: 1.5;
 }
+
+@keyframes process-scan {
+  0% {
+    top: -12px;
+  }
+  50% {
+    top: calc(100% - 8px);
+  }
+  100% {
+    top: -12px;
+  }
+}
+
+
