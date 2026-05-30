@@ -84,16 +84,32 @@ echo Committing changes...
 git commit -m "!commit_msg!"
 
 echo.
+echo Pulling latest changes from remote (to sync)...
+git pull origin main --rebase --allow-unrelated-histories
+
+if %ERRORLEVEL% neq 0 (
+    echo.
+    echo [WARNING] Pull encountered issues. Attempting to continue...
+    echo.
+)
+
+echo.
 echo Pushing to remote repository (main branch)...
 git push -u origin main
 
 if %ERRORLEVEL% neq 0 (
     echo.
-    echo [WARNING] Push failed. 
-    echo If this is a new repository or has different branch structure,
-    echo we will attempt to push to the current active branch.
+    echo [WARNING] Push to main failed. 
+    echo Attempting force push to override remote...
     echo.
-    echo Attempting to push to current branch...
+    git push -u origin main --force-with-lease
+)
+
+if %ERRORLEVEL% neq 0 (
+    echo.
+    echo [WARNING] Force push also failed.
+    echo Attempting to push to current branch HEAD...
+    echo.
     git push origin HEAD
 )
 

@@ -217,7 +217,11 @@
       const text = ((m.subject || "") + (m.message || "")).toLowerCase();
       
       // Match INR / Rupees
-      if (text.includes("< 50,000 inr") || text.includes("under 50k") || text.includes("50,000 inr") && text.includes("<")) {
+      if (text.includes("< 15,000 inr") || text.includes("under 15k") || text.includes("15,000 inr") && text.includes("<")) {
+        sum += 7500;
+      } else if (text.includes("15,000 - 50,000 inr") || text.includes("15,000 - 50,000")) {
+        sum += 32500;
+      } else if (text.includes("< 50,000 inr") || text.includes("under 50k") || text.includes("50,000 inr") && text.includes("<")) {
         sum += 25000;
       } else if (text.includes("50,000 - 1,50,000 inr") || text.includes("50,000 - 1,50,000")) {
         sum += 100000;
@@ -225,6 +229,8 @@
         sum += 325000;
       } else if (text.includes("5,00,000+ inr") || text.includes("5,00,000+")) {
         sum += 750000;
+      } else if (text.includes("custom value")) {
+        sum += 50000;
       }
       // Match Legacy USD (and convert to INR at an exchange rate of 1 USD = 83 INR)
       else if (text.includes("<$5k") || text.includes("< $5,000") || text.includes("under $5k")) {
